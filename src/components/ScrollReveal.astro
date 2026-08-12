@@ -1,0 +1,38 @@
+---
+// Shared scroll-reveal: fades/lifts any ".reveal-item" into view once, using
+// GSAP ScrollTrigger.batch (naturally staggers elements that enter together).
+// Mirrors the "Scroll Reveal / Subtle" preset used to design-system the hero.
+---
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = gsap.utils.toArray<HTMLElement>(".reveal-item");
+
+  if (items.length) {
+    if (reduceMotion) {
+      gsap.set(items, { opacity: 1, y: 0 });
+    } else {
+      gsap.set(items, { opacity: 0, y: 16 });
+      ScrollTrigger.batch(items, {
+        start: "top 88%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power2.out" }),
+      });
+    }
+  }
+</script>
+
+<noscript>
+  <style>
+    .reveal-item {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  </style>
+</noscript>

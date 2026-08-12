@@ -3,17 +3,23 @@
 @import "@fontsource/ibm-plex-sans/500.css";
 @import "@fontsource/ibm-plex-sans/600.css";
 @import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource/barlow-condensed/800.css";
 
 /*
   Design tokens — sourced via the ui-ux-pro-max skill (--design-system query:
   "engineering construction corporate industrial serious", cross-referenced
   with the Legal Services / B2B Service navy color matches) and mapped onto
-  the client's mandated brand colors (#1a286f on #ffffff). Typography uses
-  the "Financial Trust" pairing (IBM Plex Sans / IBM Plex Sans) recommended
-  for corporate, engineering-adjacent, serious brands.
+  the client's mandated brand colors (#1a286f on #ffffff). Body/UI typography
+  uses the "Financial Trust" pairing (IBM Plex Sans) established in the hero.
+  Section/stat headlines add "Barlow Condensed" (skill match for condensed,
+  bold, industrial headline type) to echo the Jacobs reference's condensed
+  display treatment without replacing the site's base typeface.
 */
 @theme {
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-brand: #1a286f;
   --color-brand-deep: #121d54;
@@ -22,6 +28,15 @@
   --color-ink: #0f172a;
   --color-muted: #64748b;
   --color-border: #e2e8f0;
+
+  /* Light-gray card/section surface (stats, service cards) */
+  --color-panel: #f3f4f6;
+  --color-panel-border: #e5e7eb;
+
+  /* Near-black section background (projects, footer) — neutral charcoal,
+     not brand-blue-tinted, per "negro/gris oscuro, no negro puro" spec. */
+  --color-dark: #15161a;
+  --color-dark-elevated: #1e2025;
 }
 
 html {
@@ -38,4 +53,16 @@ body {
   background-color: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
 }

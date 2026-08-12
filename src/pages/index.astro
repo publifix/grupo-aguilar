@@ -2,11 +2,30 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
+import Statement from "../components/sections/Statement.astro";
+import Companies from "../components/sections/Companies.astro";
+import Services from "../components/sections/Services.astro";
+import Projects from "../components/sections/Projects.astro";
+import Clients from "../components/sections/Clients.astro";
+import Contact from "../components/sections/Contact.astro";
+import Footer from "../components/Footer.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
 ---
 
-<Layout title="Grupo Corporativo Aguilar — Ingeniería Perico">
+<Layout
+  title="Grupo Corporativo Aguilar — Ingeniería Perico | Veracruz"
+  description="Ingeniería eléctrica, civil y electromecánica en Veracruz desde 1986. Grupo Corporativo Aguilar / Ingeniería Perico: proyectos certificados ISO 9001:2015. Solicita tu cotización."
+>
   <Navbar />
   <main>
     <Hero />
+    <Statement />
+    <Companies />
+    <Services />
+    <Projects />
+    <Clients />
+    <Contact />
   </main>
+  <Footer />
+  <ScrollReveal />
 </Layout>

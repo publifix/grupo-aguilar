@@ -4,23 +4,98 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title,
-  description = "Grupo Corporativo Aguilar — Ingeniería Perico. Más de 40 años brindando servicios de ingeniería de alta calidad, certificados ISO 9001:2015.",
+  description = "Grupo Corporativo Aguilar — Ingeniería Perico. Más de 40 años brindando servicios de ingeniería eléctrica, civil y electromecánica de alta calidad en Veracruz, certificados ISO 9001:2015.",
+  ogImage,
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const siteUrl = "https://publifix.github.io/grupo-aguilar/";
+const canonicalUrl = new URL(Astro.url.pathname.replace(import.meta.env.BASE_URL, ""), siteUrl).toString();
+const resolvedOgImage = new URL(ogImage ?? `${base}images/og-image.jpg`, Astro.site ?? siteUrl).toString();
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "@id": `${siteUrl}#organization`,
+  name: "Grupo Corporativo Aguilar",
+  alternateName: "Ingeniería Perico",
+  description:
+    "Grupo Aguilar es una empresa constituida en Veracruz, con el propósito de brindar servicios de ingeniería de alta calidad. Especialistas en la proyección, construcción y dirección de obra electromecánica y de urbanización.",
+  url: siteUrl,
+  logo: new URL(`${base}images/logo-grupo-aguilar.png`, siteUrl).toString(),
+  image: resolvedOgImage,
+  telephone: "+522292020532",
+  email: "perico@grupoaguilar.com.mx",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Francisco J. Mina 191, Col. R. Flores Magón",
+    addressLocality: "Veracruz",
+    addressRegion: "Veracruz",
+    postalCode: "91900",
+    addressCountry: "MX",
+  },
+  areaServed: "Veracruz, México",
+  foundingDate: "1986",
+  sameAs: [
+    "https://www.facebook.com/GrupoCorporativoAguilar",
+    "https://x.com/GrupoAguilarGCA",
+    "https://www.instagram.com/grupoaguilargca/",
+    "https://www.linkedin.com/company/grupo-corporativo-aguilar/",
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Servicios de ingeniería",
+    itemListElement: [
+      "Proyectos eléctricos integrales",
+      "Alumbrado y sistemas inteligentes",
+      "Instalaciones y mantenimiento electromecánico",
+      "Obra civil, mecánica y estructural",
+      "Estudios y pruebas especializadas",
+      "Urbanización: electrificación, drenaje y agua potable",
+    ].map((name) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name },
+    })),
+  },
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-MX">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}favicon.svg`} />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Grupo Corporativo Aguilar" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <slot />

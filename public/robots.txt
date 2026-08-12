@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://publifix.github.io/grupo-aguilar/sitemap-index.xml

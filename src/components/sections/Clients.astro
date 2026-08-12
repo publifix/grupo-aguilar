@@ -1,0 +1,111 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+
+// Filenames only carry a sequence number, not a company name, so this list
+// pairs each logo with a descriptive alt text written from what the logo
+// depicts (recognizable brands named directly; generic ones described).
+// All logos were normalized to .png during optimization, regardless of
+// their original upload format (see public/images/clientes/).
+const clientNames = [
+  "CSI",
+  "Casas Díaz",
+  "la Administración del Sistema Portuario Nacional Veracruz",
+  "Ximara Residential Grand",
+  "Tenaris Tamsa",
+  "Residencial Del Bosque",
+  "la Secretaría de Comunicaciones y Transportes (SCT)",
+  "Punta Tiburón Residencial, Marina & Golf",
+  "Privanzas",
+  "Pemex",
+  "Nissan",
+  "Nestlé",
+  "el Gobierno Municipal de Veracruz",
+  "el Municipio de Boca del Río",
+  "Lagos de Puente Moreno",
+  "ISISA",
+  "IMT, Compañía de Ingeniería Marítima y Terrestre",
+  "Hubard y Bourlon",
+  "Consorcio Hogar",
+  "Grupo Piro, Maquinaria y Construcción",
+  "Golmex",
+  "el Gobierno del Estado de Veracruz",
+  "GIA, Construyendo Confianza",
+  "FCC",
+  "Dos Riberas Residencial & Club de Golf",
+  "la Comisión Federal de Electricidad (CFE)",
+  "Casas Carpin",
+  "Carso Infraestructura y Construcción",
+  "Bredero Shaw",
+];
+
+const clients = clientNames.map((name, i) => ({
+  file: `${String(i + 1).padStart(2, "0")}.png`,
+  alt: `Logotipo de ${name}`,
+}));
+---
+
+<section id="clientes" class="overflow-hidden bg-panel px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
+  <div class="mx-auto max-w-7xl">
+    <h2 class="max-w-2xl font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
+      Empresas e instituciones que confían en nosotros.
+    </h2>
+  </div>
+
+  <div class="relative mt-14 w-full">
+    <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-panel to-transparent sm:w-32"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-panel to-transparent sm:w-32"></div>
+
+    <div id="clients-marquee" class="marquee-track flex w-max items-center gap-12 sm:gap-16">
+      <div class="marquee-set flex shrink-0 items-center gap-12 sm:gap-16">
+        {clients.map((client) => (
+          <img
+            src={`${base}images/clientes/${client.file}`}
+            alt={client.alt}
+            loading="lazy"
+            class="h-10 w-auto max-w-[140px] shrink-0 object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:h-12"
+          />
+        ))}
+      </div>
+      <div class="marquee-set flex shrink-0 items-center gap-12 sm:gap-16" aria-hidden="true">
+        {clients.map((client) => (
+          <img
+            src={`${base}images/clientes/${client.file}`}
+            alt=""
+            loading="lazy"
+            class="h-10 w-auto max-w-[140px] shrink-0 object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:h-12"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee-track {
+    animation: marquee 60s linear infinite;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .marquee-set[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

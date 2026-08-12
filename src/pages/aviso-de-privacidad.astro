@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+<Layout
+  title="Aviso de Privacidad — Grupo Corporativo Aguilar"
+  description="Aviso de privacidad de Grupo Corporativo Aguilar / Ingeniería Perico sobre el tratamiento de datos personales."
+>
+  <Navbar />
+  <main class="bg-surface px-6 py-24 sm:px-8 lg:px-12">
+    <div class="mx-auto max-w-3xl">
+      <h1 class="font-display text-4xl font-bold text-brand">Aviso de Privacidad</h1>
+      <p class="mt-4 text-sm text-muted">Última actualización: agosto de 2026.</p>
+
+      <div class="mt-10 space-y-6 text-ink">
+        <p>
+          Grupo Corporativo Aguilar, con domicilio en Francisco J. Mina 191, Col. R. Flores
+          Magón, Veracruz, Ver. CP. 91900, es responsable del tratamiento de los datos
+          personales que nos proporciones a través de este sitio web, en cumplimiento con la
+          Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
+        </p>
+        <h2 class="font-display text-2xl font-bold text-brand">¿Para qué usamos tus datos?</h2>
+        <p>
+          Los datos que nos compartas a través del formulario de contacto (nombre, teléfono,
+          correo electrónico y mensaje) se utilizan únicamente para dar seguimiento a tu
+          solicitud y ponernos en contacto contigo respecto a nuestros servicios de ingeniería.
+        </p>
+        <h2 class="font-display text-2xl font-bold text-brand">Derechos ARCO</h2>
+        <p>
+          Puedes ejercer tus derechos de Acceso, Rectificación, Cancelación u Oposición (ARCO)
+          escribiendo a <a href="mailto:perico@grupoaguilar.com.mx" class="text-brand underline">perico@grupoaguilar.com.mx</a>.
+        </p>
+        <p class="text-sm text-muted">
+          Este es un aviso de privacidad general provisional. Recomendamos que sea revisado y
+          validado por el área legal de Grupo Corporativo Aguilar antes de su publicación
+          definitiva.
+        </p>
+      </div>
+
+      <a href={base} class="mt-12 inline-flex items-center gap-2 text-sm font-semibold text-brand">
+        ← Volver al inicio
+      </a>
+    </div>
+  </main>
+  <Footer />
+</Layout>

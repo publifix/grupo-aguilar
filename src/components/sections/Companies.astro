@@ -1,0 +1,181 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+
+interface Company {
+  id: string;
+  tab: string;
+  name: string;
+  founded?: string;
+  description: string;
+  logo: string;
+  logoAlt: string;
+}
+
+const companies: Company[] = [
+  {
+    id: "perico",
+    tab: "Ingeniería Perico",
+    name: "Ingeniería Perico",
+    founded: "Desde 1986",
+    description:
+      "Ingeniería Perico es la unidad operativa especializada en ingeniería eléctrica, civil y electromecánica del grupo. Desde 1986 desarrolla proyectos de alta, media y baja tensión, alumbrado público, obra civil y urbanización, siempre con los más altos estándares de calidad y seguridad.",
+    logo: `${base}images/empresas/logo-perico.png`,
+    logoAlt: "Logotipo de Ingeniería Perico, desde 1986",
+  },
+  {
+    id: "japvi",
+    tab: "JAPVI Internacional",
+    name: "JAPVI Internacional",
+    description:
+      "Empresa del grupo enfocada en soluciones industriales y de comercio internacional, que fortalece la capacidad operativa y de abastecimiento de Grupo Corporativo Aguilar en sus proyectos de mayor escala.",
+    logo: `${base}images/empresas/japvi.jpg`,
+    logoAlt: "Logotipo de JAPVI Internacional",
+  },
+  {
+    id: "aguilar",
+    tab: "Grupo Corporativo Aguilar",
+    name: "Grupo Corporativo Aguilar",
+    description:
+      "Es la empresa matriz que agrupa y respalda a las cinco compañías del grupo, garantizando solidez financiera, visión estratégica y más de 40 años de experiencia en el sector de la ingeniería y la construcción en Veracruz.",
+    logo: `${base}images/logo-grupo-aguilar.png`,
+    logoAlt: "Logotipo de Grupo Corporativo Aguilar",
+  },
+  {
+    id: "elpe",
+    tab: "ELPE Construcciones",
+    name: "ELPE Construcciones",
+    description:
+      "Especialistas en construcción civil y estructural, ELPE Construcciones ejecuta proyectos residenciales, comerciales e industriales con los estándares de calidad que distinguen a Grupo Corporativo Aguilar.",
+    logo: `${base}images/empresas/elpe.jpg`,
+    logoAlt: "Logotipo de ELPE Construcciones",
+  },
+  {
+    id: "agca",
+    tab: "Desarrollo Inmobiliario AGCA",
+    name: "Desarrollo Inmobiliario AGCA",
+    description:
+      "AGCA desarrolla proyectos residenciales e inmobiliarios en Veracruz, desde fraccionamientos hasta desarrollos de uso mixto, con el respaldo técnico y financiero del grupo.",
+    logo: `${base}images/empresas/agca.jpg`,
+    logoAlt: "Logotipo de Desarrollo Inmobiliario AGCA",
+  },
+];
+---
+
+<section id="empresas" class="bg-surface px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
+  <div class="mx-auto max-w-7xl">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <h2 class="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
+          Un grupo, cinco especialidades.
+        </h2>
+        <p class="mt-4 text-lg text-muted">
+          Cinco empresas complementarias, un mismo respaldo técnico, financiero y operativo.
+        </p>
+      </div>
+      <a
+        href="#empresas"
+        class="inline-flex shrink-0 items-center gap-2 border border-brand px-6 py-3 text-sm font-semibold uppercase tracking-wide text-brand transition-colors hover:bg-brand hover:text-white"
+      >
+        Ver todas
+      </a>
+    </div>
+
+    <div
+      id="company-tabs"
+      role="tablist"
+      aria-label="Empresas del grupo"
+      class="mt-12 flex flex-wrap gap-2 border-b border-panel-border pb-1 sm:gap-4"
+    >
+      {companies.map((company, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${company.id}`}
+          aria-controls={`panel-${company.id}`}
+          aria-selected={i === 0 ? "true" : "false"}
+          data-company={company.id}
+          class="company-tab shrink-0 whitespace-nowrap border-b-2 border-transparent px-2 pb-4 text-xs font-semibold uppercase tracking-wide text-muted transition-colors hover:text-brand sm:text-sm"
+        >
+          {company.tab}
+        </button>
+      ))}
+    </div>
+
+    <div class="relative mt-0 overflow-hidden bg-dark">
+      {companies.map((company, i) => (
+        <div
+          id={`panel-${company.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${company.id}`}
+          data-company-panel={company.id}
+          class="company-panel grid grid-cols-1 md:grid-cols-2"
+          style={i === 0 ? "" : "display:none"}
+        >
+          <div class="flex flex-col justify-center px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
+            {company.founded && (
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">{company.founded}</p>
+            )}
+            <h3 class="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">{company.name}</h3>
+            <p class="mt-5 max-w-md text-white/75">{company.description}</p>
+          </div>
+          <div class="flex min-h-[240px] items-center justify-center bg-dark-elevated p-10 sm:p-14">
+            <img
+              src={company.logo}
+              alt={company.logoAlt}
+              class="max-h-32 w-auto max-w-full object-contain sm:max-h-40"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .company-tab[aria-selected="true"] {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".company-tab"));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>(".company-panel"));
+  let switching = false;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      if (switching) return;
+      const id = tab.dataset.company;
+      const activePanel = panels.find((p) => p.style.display !== "none");
+      const nextPanel = panels.find((p) => p.dataset.companyPanel === id);
+      if (!nextPanel || nextPanel === activePanel) return;
+
+      switching = true;
+      tabs.forEach((t) => t.setAttribute("aria-selected", t === tab ? "true" : "false"));
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion || !activePanel) {
+        if (activePanel) activePanel.style.display = "none";
+        nextPanel.style.display = "";
+        switching = false;
+        return;
+      }
+
+      gsap.to(activePanel, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power1.in",
+        onComplete: () => {
+          activePanel.style.display = "none";
+          nextPanel.style.display = "";
+          gsap.fromTo(nextPanel, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+          switching = false;
+        },
+      });
+    });
+  });
+</script>
