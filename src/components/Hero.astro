@@ -1,0 +1,69 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="relative flex min-h-screen items-center overflow-hidden bg-navy-950">
+  <!-- Fallback gradient, always visible under/behind the video -->
+  <div class="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-950 to-black"></div>
+
+  <!-- Hero background video. Drop the real file at public/videos/hero.mp4 (+ hero.webm ideally). -->
+  <video
+    id="hero-video"
+    class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  >
+    <source src={`${base}videos/hero.webm`} type="video/webm" />
+    <source src={`${base}videos/hero.mp4`} type="video/mp4" />
+  </video>
+
+  <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/70 to-navy-950/30"></div>
+
+  <div class="relative z-10 mx-auto max-w-4xl px-6 text-center lg:px-8">
+    <p class="reveal font-display text-sm font-medium uppercase tracking-[0.3em] text-amber-400">
+      Ingeniería civil · estructural · industrial
+    </p>
+    <h1 class="reveal mt-6 font-display text-4xl font-semibold leading-tight text-white sm:text-6xl">
+      Construimos la infraestructura que impulsa tu proyecto
+    </h1>
+    <p class="reveal mt-6 text-lg text-steel-300">
+      Grupo Aguilar diseña, ejecuta y supervisa obras civiles e industriales con precisión
+      técnica y cumplimiento de los más altos estándares de calidad y seguridad.
+    </p>
+    <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a
+        href="#proyectos"
+        class="rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-navy-950 transition-transform hover:scale-105"
+      >
+        Ver proyectos
+      </a>
+      <a
+        href="#contacto"
+        class="rounded-full border border-white/20 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-amber-500 hover:text-amber-400"
+      >
+        Hablar con un ingeniero
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce text-steel-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>
+
+<script>
+  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+  if (video) {
+    video.addEventListener("loadeddata", () => {
+      video.classList.remove("opacity-0");
+    });
+    video.addEventListener("error", () => {
+      video.remove();
+    });
+  }
+</script>
