@@ -2,41 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
-import Services from "../components/Services.astro";
-import About from "../components/About.astro";
-import Contact from "../components/Contact.astro";
-import Footer from "../components/Footer.astro";
 ---
 
-<Layout title="Grupo Aguilar — Ingeniería civil e industrial">
+<Layout title="Grupo Corporativo Aguilar — Ingeniería Perico">
   <Navbar />
   <main>
     <Hero />
-    <Services />
-    <About />
-    <Contact />
   </main>
-  <Footer />
 </Layout>
-
-<script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  document.querySelectorAll<HTMLElement>(".reveal").forEach((el, i) => {
-    gsap.to(el, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      delay: (i % 3) * 0.1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        once: true,
-      },
-    });
-  });
-</script>

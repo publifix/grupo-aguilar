@@ -1,69 +1,423 @@
 ---
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+
+interface Slide {
+  video: string;
+  eyebrow: string;
+  headline: string[];
+  copy: string;
+}
+
+const slides: Slide[] = [
+  {
+    video: `${base}videos/hero-1.mp4`,
+    eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico",
+    headline: ["Brindamos servicios de", "ingeniería de ALTA CALIDAD."],
+    copy: "Soluciones técnicas confiables para cada etapa de tu proyecto.",
+  },
+  {
+    video: `${base}videos/hero-2.mp4`,
+    eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico",
+    headline: ["Especialistas en obras de", "electromecánica y urbanización."],
+    copy: "Ejecución precisa, de la ingeniería de detalle a la puesta en marcha.",
+  },
+  {
+    video: `${base}videos/hero-3.mp4`,
+    eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico",
+    headline: ["Contamos con personal capacitado,", "profesional y eficiente."],
+    copy: "Un equipo técnico comprometido con la seguridad y la calidad.",
+  },
+  {
+    video: `${base}videos/hero-4.mp4`,
+    eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico",
+    headline: ["Más de 40 años", "construyendo infraestructura."],
+    copy: "Respaldados por la certificación ISO 9001:2015.",
+  },
+];
 ---
 
-<section class="relative flex min-h-screen items-center overflow-hidden bg-navy-950">
-  <!-- Fallback gradient, always visible under/behind the video -->
-  <div class="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-950 to-black"></div>
-
-  <!-- Hero background video. Drop the real file at public/videos/hero.mp4 (+ hero.webm ideally). -->
-  <video
-    id="hero-video"
-    class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-  >
-    <source src={`${base}videos/hero.webm`} type="video/webm" />
-    <source src={`${base}videos/hero.mp4`} type="video/mp4" />
-  </video>
-
-  <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/70 to-navy-950/30"></div>
-
-  <div class="relative z-10 mx-auto max-w-4xl px-6 text-center lg:px-8">
-    <p class="reveal font-display text-sm font-medium uppercase tracking-[0.3em] text-amber-400">
-      Ingeniería civil · estructural · industrial
-    </p>
-    <h1 class="reveal mt-6 font-display text-4xl font-semibold leading-tight text-white sm:text-6xl">
-      Construimos la infraestructura que impulsa tu proyecto
-    </h1>
-    <p class="reveal mt-6 text-lg text-steel-300">
-      Grupo Aguilar diseña, ejecuta y supervisa obras civiles e industriales con precisión
-      técnica y cumplimiento de los más altos estándares de calidad y seguridad.
-    </p>
-    <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <a
-        href="#proyectos"
-        class="rounded-full bg-amber-500 px-8 py-3 text-sm font-semibold text-navy-950 transition-transform hover:scale-105"
+<section
+  id="inicio"
+  class="hero relative h-svh min-h-[640px] w-full overflow-hidden bg-brand-ink"
+  aria-roledescription="carrusel"
+  aria-label="Presentación destacada de Grupo Corporativo Aguilar"
+>
+  <!-- Video layers (wipe transition happens between these) -->
+  <div class="absolute inset-0" id="hero-stage">
+    {slides.map((slide, i) => (
+      <div
+        class="hero-layer absolute inset-0"
+        data-slide={i}
+        style={`clip-path: ${i === 0 ? "inset(0% 0% 0% 0%)" : "inset(0% 100% 0% 0%)"}; z-index: ${i === 0 ? 2 : 1};`}
       >
-        Ver proyectos
-      </a>
-      <a
-        href="#contacto"
-        class="rounded-full border border-white/20 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-amber-500 hover:text-amber-400"
+        <video
+          class="h-full w-full object-cover"
+          muted
+          loop
+          playsinline
+          autoplay={i === 0}
+          preload={i === 0 ? "auto" : "none"}
+          data-src={slide.video}
+          src={i === 0 ? slide.video : undefined}
+        />
+      </div>
+    ))}
+    <!-- traveling wipe blade -->
+    <div id="hero-blade" class="pointer-events-none absolute inset-y-0 z-30 w-1.5 bg-brand opacity-0 shadow-[0_0_24px_4px_rgba(26,40,111,0.55)] sm:w-2"></div>
+  </div>
+
+  <!-- Legibility scrims: top (for header) and directional (for text panel) -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-40 bg-gradient-to-b from-black/55 to-transparent"></div>
+  <div class="pointer-events-none absolute inset-0 z-10 hidden bg-gradient-to-r from-brand-deep via-brand-deep/75 via-45% to-transparent md:block"></div>
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/3 bg-gradient-to-t from-brand-deep via-brand-deep/70 via-35% to-transparent md:hidden"></div>
+
+  <!-- Text panel -->
+  <div class="relative z-20 flex h-full items-end md:items-center">
+    <div class="w-full px-5 pb-28 sm:px-8 sm:pb-32 md:w-3/5 md:px-12 md:pb-0 lg:w-1/2 lg:px-16 xl:w-[45%]">
+      <p id="hero-eyebrow" class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 sm:text-sm">
+        {slides[0].eyebrow}
+      </p>
+      <h1
+        id="hero-headline"
+        class="mt-4 font-sans text-[clamp(1.9rem,5vw,3.75rem)] font-bold leading-[1.1] text-white"
       >
-        Hablar con un ingeniero
+        {slides[0].headline.map((line) => (
+          <span class="hero-line block overflow-hidden">
+            <span class="hero-line-inner block">{line}</span>
+          </span>
+        ))}
+      </h1>
+      <p id="hero-copy" class="hero-copy mt-5 max-w-md text-[clamp(0.95rem,1.6vw,1.125rem)] text-white/85">
+        {slides[0].copy}
+      </p>
+      <a
+        href="#servicios"
+        class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-brand shadow-lg shadow-black/20 transition-transform hover:scale-105 sm:text-base"
+      >
+        Conoce nuestros servicios
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
       </a>
     </div>
   </div>
 
-  <div class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce text-steel-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-    </svg>
+  <!-- Controls -->
+  <div class="absolute inset-x-0 bottom-6 z-30 flex items-center justify-between px-5 sm:px-8 md:bottom-10 md:px-12 lg:px-16">
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        id="hero-prev"
+        aria-label="Diapositiva anterior"
+        class="hero-control-btn"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        id="hero-next"
+        aria-label="Siguiente diapositiva"
+        class="hero-control-btn"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        id="hero-playpause"
+        aria-pressed="true"
+        aria-label="Pausar presentación automática"
+        class="hero-control-btn"
+      >
+        <svg id="hero-pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="6" y="5" width="4" height="14" rx="1" />
+          <rect x="14" y="5" width="4" height="14" rx="1" />
+        </svg>
+        <svg id="hero-play-icon" xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-3 text-white">
+      <span id="hero-counter" class="font-mono text-xs tabular-nums text-white/80 sm:text-sm">
+        01 / {String(slides.length).padStart(2, "0")}
+      </span>
+      <div class="hero-progress-track relative h-0.5 w-16 overflow-hidden rounded-full bg-white/25 sm:w-24">
+        <div id="hero-progress-fill" class="absolute inset-y-0 left-0 w-0 rounded-full bg-white"></div>
+      </div>
+    </div>
   </div>
 </section>
 
+<style>
+  .hero-layer video {
+    will-change: clip-path;
+  }
+
+  .hero-control-btn {
+    display: inline-flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.35);
+    background-color: rgb(255 255 255 / 0.1);
+    color: white;
+    backdrop-filter: blur(6px);
+    transition: background-color 200ms ease, transform 200ms ease;
+  }
+
+  .hero-control-btn:hover {
+    background-color: rgb(255 255 255 / 0.22);
+  }
+
+  .hero-control-btn:active {
+    transform: scale(0.94);
+  }
+
+  .hero-line-inner {
+    transform: translateY(110%);
+  }
+
+  .hero-copy {
+    opacity: 0;
+  }
+
+  #hero-progress-fill {
+    transition: none;
+  }
+</style>
+
+<noscript>
+  <style>
+    .hero-line-inner {
+      transform: none !important;
+    }
+    .hero-copy {
+      opacity: 1 !important;
+    }
+  </style>
+</noscript>
+
 <script>
-  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
-  if (video) {
-    video.addEventListener("loadeddata", () => {
-      video.classList.remove("opacity-0");
+  import gsap from "gsap";
+
+  type SlideEl = {
+    root: HTMLElement;
+    video: HTMLVideoElement;
+  };
+
+  const stage = document.getElementById("hero-stage") as HTMLElement;
+  const blade = document.getElementById("hero-blade") as HTMLElement;
+  const eyebrowEl = document.getElementById("hero-eyebrow") as HTMLElement;
+  const headlineEl = document.getElementById("hero-headline") as HTMLElement;
+  const copyEl = document.getElementById("hero-copy") as HTMLElement;
+  const counterEl = document.getElementById("hero-counter") as HTMLElement;
+  const progressFill = document.getElementById("hero-progress-fill") as HTMLElement;
+  const prevBtn = document.getElementById("hero-prev") as HTMLButtonElement;
+  const nextBtn = document.getElementById("hero-next") as HTMLButtonElement;
+  const playPauseBtn = document.getElementById("hero-playpause") as HTMLButtonElement;
+  const pauseIcon = document.getElementById("hero-pause-icon") as HTMLElement;
+  const playIcon = document.getElementById("hero-play-icon") as HTMLElement;
+
+  const slideData = [
+    { eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico", headline: ["Brindamos servicios de", "ingeniería de ALTA CALIDAD."], copy: "Soluciones técnicas confiables para cada etapa de tu proyecto." },
+    { eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico", headline: ["Especialistas en obras de", "electromecánica y urbanización."], copy: "Ejecución precisa, de la ingeniería de detalle a la puesta en marcha." },
+    { eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico", headline: ["Contamos con personal capacitado,", "profesional y eficiente."], copy: "Un equipo técnico comprometido con la seguridad y la calidad." },
+    { eyebrow: "Grupo Corporativo Aguilar · Ingeniería Perico", headline: ["Más de 40 años", "construyendo infraestructura."], copy: "Respaldados por la certificación ISO 9001:2015." },
+  ];
+
+  const layers: SlideEl[] = Array.from(stage.querySelectorAll<HTMLElement>(".hero-layer")).map((root) => ({
+    root,
+    video: root.querySelector("video") as HTMLVideoElement,
+  }));
+
+  const total = layers.length;
+  const SLIDE_DURATION = 6500;
+  const WIPE_DURATION = 0.9;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let current = 0;
+  let autoplay = !reduceMotion;
+  let timer: number | null = null;
+  let progressTween: gsap.core.Tween | null = null;
+  let transitioning = false;
+
+  function ensureLoaded(index: number) {
+    const { video } = layers[index];
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+      video.load();
+    }
+  }
+
+  function playVideo(index: number) {
+    ensureLoaded(index);
+    const { video } = layers[index];
+    video.play().catch(() => {});
+  }
+
+  function pauseVideo(index: number) {
+    layers[index].video.pause();
+  }
+
+  function updateText(index: number) {
+    const data = slideData[index];
+    eyebrowEl.textContent = data.eyebrow;
+    headlineEl.innerHTML = data.headline
+      .map((line) => `<span class="hero-line block overflow-hidden"><span class="hero-line-inner block">${line}</span></span>`)
+      .join("");
+    copyEl.textContent = data.copy;
+    counterEl.textContent = `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+  }
+
+  function revealText() {
+    const lines = headlineEl.querySelectorAll(".hero-line-inner");
+    const tl = gsap.timeline();
+    if (reduceMotion) {
+      gsap.set(lines, { y: 0 });
+      gsap.set(copyEl, { opacity: 1 });
+      return;
+    }
+    tl.set(lines, { y: "110%" })
+      .set(copyEl, { opacity: 0, y: 12 })
+      .to(lines, { y: "0%", duration: 0.7, stagger: 0.1, ease: "power3.out" })
+      .to(copyEl, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.3");
+  }
+
+  function goTo(index: number, direction: 1 | -1 = 1) {
+    if (transitioning || index === current) return;
+    transitioning = true;
+
+    const from = current;
+    const to = ((index % total) + total) % total;
+    current = to;
+
+    playVideo(to);
+    layers[to].root.style.zIndex = "2";
+    layers[from].root.style.zIndex = "1";
+
+    if (reduceMotion) {
+      layers[to].root.style.clipPath = "inset(0% 0% 0% 0%)";
+      layers[from].root.style.clipPath = "inset(0% 100% 0% 0%)";
+      pauseVideo(from);
+      updateText(to);
+      revealText();
+      transitioning = false;
+      return;
+    }
+
+    const proxy = { r: 100 };
+    layers[to].root.style.clipPath = "inset(0% 100% 0% 0%)";
+    gsap.set(blade, { left: "0%", opacity: 1 });
+
+    gsap.to(proxy, {
+      r: 0,
+      duration: WIPE_DURATION,
+      ease: "power4.inOut",
+      onUpdate: () => {
+        layers[to].root.style.clipPath = `inset(0% ${proxy.r}% 0% 0%)`;
+        blade.style.left = `${100 - proxy.r}%`;
+      },
+      onComplete: () => {
+        gsap.to(blade, { opacity: 0, duration: 0.25 });
+        pauseVideo(from);
+        layers[from].root.style.clipPath = "inset(0% 100% 0% 0%)";
+        updateText(to);
+        revealText();
+        transitioning = false;
+      },
     });
-    video.addEventListener("error", () => {
-      video.remove();
+
+    // preload the following clip so its wipe-in is instant
+    ensureLoaded((to + 1) % total);
+  }
+
+  function startProgress() {
+    progressTween?.kill();
+    gsap.set(progressFill, { width: "0%" });
+    if (!autoplay) return;
+    progressTween = gsap.to(progressFill, {
+      width: "100%",
+      duration: SLIDE_DURATION / 1000,
+      ease: "none",
     });
+  }
+
+  function scheduleNext() {
+    if (timer) window.clearTimeout(timer);
+    if (!autoplay) return;
+    startProgress();
+    timer = window.setTimeout(() => {
+      goTo(current + 1, 1);
+      scheduleNext();
+    }, SLIDE_DURATION);
+  }
+
+  function stopAutoplay() {
+    autoplay = false;
+    if (timer) window.clearTimeout(timer);
+    progressTween?.kill();
+    gsap.set(progressFill, { width: "0%" });
+    playPauseBtn.setAttribute("aria-pressed", "false");
+    playPauseBtn.setAttribute("aria-label", "Reanudar presentación automática");
+    pauseIcon.classList.add("hidden");
+    playIcon.classList.remove("hidden");
+    pauseVideo(current);
+  }
+
+  function startAutoplay() {
+    autoplay = true;
+    playPauseBtn.setAttribute("aria-pressed", "true");
+    playPauseBtn.setAttribute("aria-label", "Pausar presentación automática");
+    pauseIcon.classList.remove("hidden");
+    playIcon.classList.add("hidden");
+    playVideo(current);
+    scheduleNext();
+  }
+
+  prevBtn.addEventListener("click", () => {
+    goTo(current - 1, -1);
+    if (autoplay) scheduleNext();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    goTo(current + 1, 1);
+    if (autoplay) scheduleNext();
+  });
+
+  playPauseBtn.addEventListener("click", () => {
+    if (autoplay) stopAutoplay();
+    else startAutoplay();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseVideo(current);
+    else if (autoplay) playVideo(current);
+  });
+
+  // init
+  gsap.set(headlineEl.querySelectorAll(".hero-line-inner"), { y: reduceMotion ? "0%" : "110%" });
+  gsap.set(copyEl, { opacity: reduceMotion ? 1 : 0 });
+  if (!reduceMotion) {
+    gsap.timeline()
+      .to(headlineEl.querySelectorAll(".hero-line-inner"), { y: "0%", duration: 0.8, stagger: 0.1, ease: "power3.out", delay: 0.2 })
+      .to(copyEl, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.35");
+  }
+
+  playVideo(0);
+  ensureLoaded(1);
+
+  if (autoplay) scheduleNext();
+  else {
+    playPauseBtn.setAttribute("aria-pressed", "false");
+    playPauseBtn.setAttribute("aria-label", "Reanudar presentación automática");
+    pauseIcon.classList.add("hidden");
+    playIcon.classList.remove("hidden");
   }
 </script>
