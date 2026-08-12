@@ -59,12 +59,14 @@ const slides: Slide[] = [
         </div>
       ))}
       <!-- traveling wipe blade -->
-      <div id="hero-blade" class="pointer-events-none absolute inset-y-0 z-30 w-1.5 bg-white opacity-0 shadow-[0_0_24px_4px_rgba(255,255,255,0.5)] sm:w-2"></div>
+      <div id="hero-blade" class="pointer-events-none absolute inset-y-0 z-10 w-1.5 bg-white opacity-0 shadow-[0_0_24px_4px_rgba(255,255,255,0.5)] sm:w-2"></div>
     </div>
   </div>
 
-  <!-- Text panel: solid brand-blue card, sized to its content, flush top-left over the video from md+ -->
-  <div class="relative z-20 w-full bg-brand md:absolute md:left-0 md:top-0 md:w-[28rem] lg:w-[32rem]">
+  <!-- Text panel: solid brand-blue card, sized to its content. From md+ it floats above the
+       video with air on every side except the bottom, which it always touches; it sits above
+       the wipe/blade (z-30) so the cut transition is only ever visible over the open video. -->
+  <div class="relative z-30 w-full bg-brand md:absolute md:bottom-0 md:left-6 md:w-[28rem] lg:left-10 lg:w-[32rem]">
     <div class="px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-11">
       <h1
         id="hero-headline"
