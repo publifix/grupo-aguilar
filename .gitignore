@@ -14,3 +14,7 @@ npm-debug.log*
 
 # macOS
 .DS_Store
+
+# python cache (ui-ux-pro-max skill scripts)
+__pycache__/
+*.pyc
