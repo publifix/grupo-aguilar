@@ -5,12 +5,16 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  robots?: string;
 }
 
 const {
   title,
-  description = "Grupo Corporativo Aguilar — Ingeniería Perico. Más de 40 años brindando servicios de ingeniería eléctrica, civil y electromecánica de alta calidad en Veracruz, certificados ISO 9001:2015.",
+  description = "Grupo Corporativo Aguilar: ingeniería eléctrica, civil y electromecánica con Ingeniería Perico, y desarrollo inmobiliario con AGCA. Más de 40 años en Veracruz, certificados ISO 9001:2015.",
   ogImage,
+  ogImageAlt = "Grupo Corporativo Aguilar — ingeniería, infraestructura y desarrollo inmobiliario en Veracruz",
+  robots = "index, follow",
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
@@ -25,7 +29,7 @@ const jsonLd = {
   name: "Grupo Corporativo Aguilar",
   alternateName: "Ingeniería Perico",
   description:
-    "Grupo Aguilar es una empresa constituida en Veracruz, con el propósito de brindar servicios de ingeniería de alta calidad. Especialistas en la proyección, construcción y dirección de obra electromecánica y de urbanización.",
+    "Grupo Aguilar es una empresa constituida en Veracruz, con el propósito de brindar servicios de ingeniería de alta calidad y desarrollo inmobiliario. Especialistas en la proyección, construcción y dirección de obra electromecánica y de urbanización a través de Ingeniería Perico, y en desarrollo de fraccionamientos y edificación a través de AGCA.",
   url: siteUrl,
   logo: new URL(`${base}images/logo-grupo-aguilar.png`, siteUrl).toString(),
   image: resolvedOgImage,
@@ -47,9 +51,23 @@ const jsonLd = {
     "https://www.instagram.com/grupoaguilargca/",
     "https://www.linkedin.com/company/grupo-corporativo-aguilar/",
   ],
+  department: [
+    {
+      "@type": "Organization",
+      name: "Ingeniería Perico",
+      description: "Ingeniería eléctrica, electromecánica y civil desde 1986.",
+      url: `${siteUrl}#perico`,
+    },
+    {
+      "@type": "Organization",
+      name: "AGCA Desarrollo Inmobiliario",
+      description: "Fraccionamientos, plazas y edificación vertical en Veracruz.",
+      url: `${siteUrl}#agca`,
+    },
+  ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Servicios de ingeniería",
+    name: "Servicios de ingeniería y desarrollo inmobiliario",
     itemListElement: [
       "Proyectos eléctricos integrales",
       "Alumbrado y sistemas inteligentes",
@@ -57,6 +75,7 @@ const jsonLd = {
       "Obra civil, mecánica y estructural",
       "Estudios y pruebas especializadas",
       "Urbanización: electrificación, drenaje y agua potable",
+      "Desarrollo inmobiliario residencial y comercial (AGCA)",
     ].map((name) => ({
       "@type": "Offer",
       itemOffered: { "@type": "Service", name },
@@ -70,10 +89,16 @@ const jsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}site.webmanifest`} />
+    <meta name="theme-color" content="#182677" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph -->
@@ -82,16 +107,20 @@ const jsonLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content="es_MX" />
     <meta property="og:site_name" content="Grupo Corporativo Aguilar" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@GrupoAguilarGCA" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <meta name="generator" content={Astro.generator} />
 
