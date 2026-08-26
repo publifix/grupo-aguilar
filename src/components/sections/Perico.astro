@@ -1,0 +1,238 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+
+const serviceCards = [
+  {
+    title: "Ingeniería eléctrica",
+    image: `${base}images/perico/perico-instalacion-electrica.jpg`,
+    imageAlt: "Instalación eléctrica de media tensión ejecutada por Ingeniería Perico",
+    points: [
+      "Diseño y ejecución de proyectos eléctricos industriales, comerciales y residenciales.",
+      "Instalaciones eléctricas en baja, media y alta tensión.",
+      "Mantenimiento, pruebas y diagnóstico de equipos e instalaciones eléctricas.",
+      "Estudios de código de red y eficiencia energética mediante software ETAP.",
+    ],
+  },
+  {
+    title: "Infraestructura y urbanización",
+    image: `${base}images/perico/perico-obra-urbanizacion.jpg`,
+    imageAlt: "Vista aérea de una obra de urbanización desarrollada por Ingeniería Perico",
+    points: [
+      "Diseño y construcción de alumbrado público e iluminación arquitectónica.",
+      "Obras de urbanización: electrificación, drenaje y redes de agua potable y pluvial.",
+    ],
+  },
+];
+
+const timelineSteps = [
+  { number: "01", title: "Diagnóstico", description: "Levantamiento, análisis y evaluación de las condiciones existentes." },
+  { number: "02", title: "Ingeniería", description: "Diseño técnico, cálculos, especificaciones y cumplimiento normativo." },
+  { number: "03", title: "Planeación", description: "Alcance, presupuesto, recursos y programa de ejecución." },
+  { number: "04", title: "Construcción", description: "Suministro, instalación, supervisión y puesta en marcha." },
+  { number: "05", title: "Mantenimiento", description: "Prevención, corrección, pruebas y continuidad operativa." },
+];
+
+const qualityPoints = [
+  {
+    title: "Gestión de calidad",
+    description: "Sistema de gestión documentado con base en la norma ISO 9001:2015, con alcance en instalación y mantenimiento eléctrico.",
+  },
+  {
+    title: "Cumplimiento normativo",
+    description: "Proyectos eléctricos desarrollados con base en la Norma Oficial Mexicana aplicable.",
+  },
+  {
+    title: "Verificación técnica",
+    description: "Pruebas a equipos, cables e instalaciones: Megger, HiPot, VLF y TTR, entre otras.",
+  },
+  {
+    title: "Gestión ante autoridades",
+    description: "Trámites y coordinación técnica ante CFE y unidades de verificación de instalaciones eléctricas.",
+  },
+];
+---
+
+<section id="perico">
+  <!-- Intro: mini-hero -->
+  <div class="relative overflow-hidden bg-surface px-6 py-28 sm:px-8 sm:py-32 lg:px-12 lg:py-36">
+    <div
+      class="pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-perico-tint blur-3xl"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <p class="reveal-item flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-perico-accent">
+        <span aria-hidden="true">—</span> Ingeniería Perico
+      </p>
+      <img
+        src={`${base}images/empresas/logo-perico.png`}
+        alt="Logotipo de Ingeniería Perico"
+        class="reveal-item mt-6 h-14 w-auto object-contain object-left sm:h-16"
+        loading="lazy"
+      />
+      <h2 class="reveal-item mt-8 max-w-4xl font-display text-[clamp(2.5rem,5.5vw,4.25rem)] font-bold leading-[1.05] text-brand">
+        Servicios de ingeniería eléctrica, electromecánica y civil.
+      </h2>
+      <p class="reveal-item mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+        Desde 1986, proyectamos, construimos y damos mantenimiento a la infraestructura eléctrica que
+        Veracruz necesita.
+      </p>
+
+      <div class="mt-16 grid gap-6 lg:grid-cols-2 lg:gap-8">
+        {serviceCards.map((card) => (
+          <article class="reveal-item group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-lg shadow-brand-ink/5">
+            <div class="overflow-hidden">
+              <img
+                src={card.image}
+                alt={card.imageAlt}
+                loading="lazy"
+                class="aspect-[3/2] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+              />
+            </div>
+            <div class="flex flex-1 flex-col p-8 sm:p-10">
+              <h3 class="font-display text-2xl font-bold text-ink sm:text-3xl">{card.title}</h3>
+              <ul class="mt-6 flex flex-1 flex-col justify-center border-t border-panel-border">
+                {card.points.map((point) => (
+                  <li class="quality-row group/item flex items-start gap-3 border-b border-panel-border py-4">
+                    <span class="row-mark mt-2.5 h-px w-4 shrink-0 bg-brand" aria-hidden="true"></span>
+                    <span class="row-text text-sm text-muted">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Capacidad integral -->
+  <div class="bg-brand-tint px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+    <div class="mx-auto max-w-7xl">
+      <p class="reveal-item flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
+        <span aria-hidden="true">—</span> Capacidad integral
+      </p>
+      <h2 class="reveal-item mt-4 max-w-3xl font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
+        Un solo equipo técnico durante todo el ciclo del proyecto.
+      </h2>
+
+      <!-- Desktop / tablet: horizontal timeline -->
+      <div class="reveal-item relative mt-16 hidden md:block">
+        <div class="absolute left-[10%] right-[10%] top-6 h-px bg-brand/20" aria-hidden="true"></div>
+        <div class="relative grid grid-cols-5 gap-4">
+          {timelineSteps.map((step) => (
+            <div class="timeline-step group flex flex-col items-center px-2 text-center">
+              <div class="timeline-circle relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
+                {step.number}
+              </div>
+              <h3 class="mt-5 font-display text-lg font-bold text-ink sm:text-xl">{step.title}</h3>
+              <p class="timeline-desc mt-2 text-sm text-muted">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Mobile: vertical timeline -->
+      <div class="reveal-item relative mt-12 md:hidden">
+        <div class="absolute left-6 top-6 bottom-6 w-px bg-brand/20" aria-hidden="true"></div>
+        <div class="relative flex flex-col gap-10">
+          {timelineSteps.map((step) => (
+            <div class="timeline-step group flex gap-5">
+              <div class="timeline-circle relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
+                {step.number}
+              </div>
+              <div class="pt-1">
+                <h3 class="font-display text-lg font-bold text-ink">{step.title}</h3>
+                <p class="timeline-desc mt-2 text-sm text-muted">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calidad y cumplimiento -->
+  <div class="bg-panel px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+    <div class="mx-auto max-w-7xl">
+      <p class="reveal-item flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
+        <span aria-hidden="true">—</span> Calidad y cumplimiento
+      </p>
+      <h2 class="reveal-item mt-4 max-w-3xl font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
+        La calidad se demuestra en cada entrega.
+      </h2>
+      <p class="reveal-item mt-4 max-w-2xl text-lg text-muted">
+        Trabajamos con procesos definidos, verificación técnica y apego normativo para reducir riesgos
+        y asegurar instalaciones confiables.
+      </p>
+
+      <div class="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div class="reveal-item flex flex-col items-center justify-center gap-10 rounded-[24px] bg-white p-10 shadow-lg shadow-brand-ink/5 sm:p-14">
+          <img
+            src={`${base}images/certificaciones/logo-iso-9001.png`}
+            alt="Certificación ISO 9001:2015"
+            class="h-auto w-full max-w-[260px] object-contain"
+            loading="lazy"
+          />
+          <img
+            src={`${base}images/certificaciones/logo-cice.png`}
+            alt="Logotipo de CICE, unidad de verificación de instalaciones eléctricas"
+            class="h-auto w-full max-w-[180px] object-contain"
+            loading="lazy"
+          />
+        </div>
+
+        <ul class="reveal-item border-t border-panel-border">
+          {qualityPoints.map((point, i) => (
+            <li class="quality-row group/item flex items-start gap-4 border-b border-panel-border py-6">
+              <span class="row-number shrink-0 font-display text-2xl font-bold text-perico-accent">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 class="font-display text-lg font-bold text-ink sm:text-xl">{point.title}</h3>
+                <p class="row-text mt-1.5 text-sm text-muted">{point.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* One consistent hover curve/duration across every interactive element
+     in this section (image zoom, list rows, timeline steps). */
+  .quality-row .row-mark,
+  .quality-row .row-text,
+  .quality-row .row-number,
+  .timeline-circle,
+  .timeline-desc {
+    transition-property: color, background-color, width, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-out;
+  }
+
+  .quality-row:hover .row-mark {
+    width: 1.5rem;
+    background-color: var(--color-perico-accent);
+  }
+
+  .quality-row:hover .row-number {
+    transform: scale(1.12);
+  }
+
+  .quality-row:hover .row-text {
+    color: var(--color-ink);
+  }
+
+  .timeline-step:hover .timeline-circle {
+    transform: scale(1.12);
+    background-color: var(--color-perico-accent);
+  }
+
+  .timeline-step:hover .timeline-desc {
+    color: var(--color-ink);
+  }
+</style>

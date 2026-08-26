@@ -54,6 +54,12 @@
      decorative corner shape in "Nuestras Empresas". */
   --color-perico-tint: #f1f7eb;
   --color-agca-tint: #fce6f1;
+
+  /* Perico's full-saturation brand green (sampled from logo-perico.png),
+     used as its own section's accent — eyebrow text and hover states in
+     the dedicated "Ingeniería Perico" section — distinct from the pale
+     --color-perico-tint used for the corner blob in "Nuestras Empresas". */
+  --color-perico-accent: #77ad3b;
 }
 
 html {
