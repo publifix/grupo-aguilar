@@ -1,111 +1,108 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
-// Filenames only carry a sequence number, not a company name, so this list
-// pairs each logo with a descriptive alt text written from what the logo
-// depicts (recognizable brands named directly; generic ones described).
-// All logos were normalized to .png during optimization, regardless of
-// their original upload format (see public/images/clientes/).
-const clientNames = [
-  "CSI",
-  "Casas Díaz",
-  "la Administración del Sistema Portuario Nacional Veracruz",
-  "Ximara Residential Grand",
-  "Tenaris Tamsa",
-  "Residencial Del Bosque",
-  "la Secretaría de Comunicaciones y Transportes (SCT)",
-  "Punta Tiburón Residencial, Marina & Golf",
-  "Privanzas",
-  "Pemex",
-  "Nissan",
-  "Nestlé",
-  "el Gobierno Municipal de Veracruz",
-  "el Municipio de Boca del Río",
-  "Lagos de Puente Moreno",
-  "ISISA",
-  "IMT, Compañía de Ingeniería Marítima y Terrestre",
-  "Hubard y Bourlon",
-  "Consorcio Hogar",
-  "Grupo Piro, Maquinaria y Construcción",
-  "Golmex",
-  "el Gobierno del Estado de Veracruz",
-  "GIA, Construyendo Confianza",
-  "FCC",
-  "Dos Riberas Residencial & Club de Golf",
-  "la Comisión Federal de Electricidad (CFE)",
-  "Casas Carpin",
-  "Carso Infraestructura y Construcción",
-  "Bredero Shaw",
+interface Client {
+  name: string;
+  slug: string;
+  featured?: boolean;
+}
+
+// Ordered by prominence: government bodies and large corporates first,
+// down to smaller-scale residential developments — per the client's
+// explicit priority order, not alphabetical or by upload date.
+const clients: Client[] = [
+  { name: "CFE", slug: "cfe", featured: true },
+  { name: "Pemex", slug: "pemex", featured: true },
+  { name: "Nissan", slug: "nissan", featured: true },
+  { name: "Nestlé", slug: "nestle", featured: true },
+  { name: "Tenaris Tamsa", slug: "tenaris-tamsa", featured: true },
+  { name: "FCC", slug: "fcc", featured: true },
+  { name: "Carso", slug: "carso", featured: true },
+
+  { name: "Golmex", slug: "golmex" },
+  { name: "SCT", slug: "sct" },
+  { name: "IMT", slug: "imt" },
+  { name: "Gobierno del Estado de Veracruz", slug: "gobierno-veracruz" },
+  { name: "Municipio de Boca del Río", slug: "municipio-boca-del-rio" },
+  { name: "Gobierno Municipal de Veracruz", slug: "gobierno-municipal-veracruz" },
+  { name: "Bredero Shaw", slug: "bredero-shaw" },
+
+  { name: "Hubard y Bourlon", slug: "hubard-y-bourlon" },
+  { name: "Consorcio Hogar", slug: "consorcio-hogar" },
+  { name: "Grupo Piro", slug: "grupo-piro" },
+  { name: "GIA", slug: "gia" },
+  { name: "ISISA", slug: "isisa" },
+  { name: "Casas Carpin", slug: "casas-carpin" },
+  { name: "Casas Díaz", slug: "casas-diaz" },
+
+  { name: "Ximara Residencial", slug: "ximara" },
+  { name: "Privanzas", slug: "privanzas" },
+  { name: "Punta Tiburón Residencial, Marina & Golf", slug: "punta-tiburon" },
+  { name: "Dos Riberas Residencial & Club de Golf", slug: "dos-riberas" },
+  { name: "Lagos de Puente Moreno", slug: "lagos-puente-moreno" },
+  { name: "Residencial Del Bosque", slug: "residencial-del-bosque" },
+  { name: "CSI", slug: "csi" },
 ];
 
-const clients = clientNames.map((name, i) => ({
-  file: `${String(i + 1).padStart(2, "0")}.png`,
-  alt: `Logotipo de ${name}`,
-}));
+// Hand-sequenced (not a rigid A-B-C repeat) so the three accent colors —
+// institutional blue, Perico green, AGCA magenta — feel varied rather
+// than patterned, with no two adjacent pills sharing a color.
+const accentSequence = [
+  "brand", "agca", "perico", "brand", "perico", "agca", "brand",
+  "agca", "brand", "perico", "agca", "brand", "perico", "brand",
+  "perico", "agca", "brand", "perico", "brand", "agca", "perico",
+  "brand", "perico", "agca", "brand", "agca", "perico", "agca",
+] as const;
+
+const accentVars: Record<(typeof accentSequence)[number], string> = {
+  brand: "var(--color-brand)",
+  perico: "var(--color-perico-accent)",
+  agca: "var(--color-agca-accent)",
+};
 ---
 
-<section id="clientes" class="overflow-hidden bg-panel px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
-  <div class="mx-auto max-w-7xl">
-    <h2 class="max-w-2xl font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
-      Empresas e instituciones que confían en nosotros.
+<section id="clientes" class="bg-brand-tint px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
+  <div class="mx-auto max-w-3xl text-center">
+    <p class="reveal-item flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-perico-accent">
+      <span aria-hidden="true">—</span> Confianza y Trayectoria
+    </p>
+    <h2 class="reveal-item mx-auto mt-4 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
+      Empresas e instituciones que ya confiaron en nosotros.
     </h2>
   </div>
 
-  <div class="relative mt-14 w-full">
-    <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-panel to-transparent sm:w-32"></div>
-    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-panel to-transparent sm:w-32"></div>
-
-    <div id="clients-marquee" class="marquee-track flex w-max items-center gap-12 sm:gap-16">
-      <div class="marquee-set flex shrink-0 items-center gap-12 sm:gap-16">
-        {clients.map((client) => (
-          <img
-            src={`${base}images/clientes/${client.file}`}
-            alt={client.alt}
-            loading="lazy"
-            class="h-10 w-auto max-w-[140px] shrink-0 object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:h-12"
-          />
-        ))}
+  <div class="reveal-item mx-auto mt-14 flex max-w-6xl flex-wrap justify-center gap-3 sm:gap-4">
+    {clients.map((client, i) => (
+      <div
+        class={`client-pill flex items-center justify-center rounded-full border-2 bg-white ${client.featured ? "px-7 py-4" : "px-5 py-3"}`}
+        style={`--pill-color: ${accentVars[accentSequence[i]]}`}
+      >
+        <img
+          src={`${base}images/clientes/${client.slug}.png`}
+          alt={`Logotipo de ${client.name}`}
+          loading="lazy"
+          class={`w-auto object-contain ${client.featured ? "h-9 max-w-[150px] sm:h-10" : "h-7 max-w-[120px] sm:h-8"}`}
+        />
       </div>
-      <div class="marquee-set flex shrink-0 items-center gap-12 sm:gap-16" aria-hidden="true">
-        {clients.map((client) => (
-          <img
-            src={`${base}images/clientes/${client.file}`}
-            alt=""
-            loading="lazy"
-            class="h-10 w-auto max-w-[140px] shrink-0 object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:h-12"
-          />
-        ))}
-      </div>
-    </div>
+    ))}
   </div>
 </section>
 
 <style>
-  .marquee-track {
-    animation: marquee 60s linear infinite;
+  .client-pill {
+    border-color: color-mix(in srgb, var(--pill-color) 45%, white);
+    transition: border-color 300ms ease-out, transform 300ms ease-out, box-shadow 300ms ease-out;
   }
 
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+  .client-pill:hover {
+    border-color: var(--pill-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px -8px rgb(0 0 0 / 0.15);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    .marquee-set[aria-hidden="true"] {
-      display: none;
+    .client-pill:hover {
+      transform: none;
     }
   }
 </style>
