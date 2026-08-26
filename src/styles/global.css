@@ -42,6 +42,11 @@
      not brand-blue-tinted, per "negro/gris oscuro, no negro puro" spec. */
   --color-dark: #15161a;
   --color-dark-elevated: #1e2025;
+
+  /* Pale, desaturated brand-blue tint (8% brand over white) — section
+     background for "Nuestras Empresas", to differentiate it from the
+     neutral-gray panel tone used elsewhere. */
+  --color-brand-tint: #edeef4;
 }
 
 html {
