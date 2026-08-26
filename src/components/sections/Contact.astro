@@ -1,218 +1,89 @@
 ---
-const mapQuery = encodeURIComponent(
-  "Francisco J. Mina 191, Col. R. Flores Magón, Veracruz, Ver. CP 91900"
-);
-const mapSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+const whatsappPath =
+  "M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.62 1.44 5.19L2 22l5.03-1.55a9.9 9.9 0 004.97 1.35h.01c5.46 0 9.9-4.45 9.9-9.91C21.91 6.45 17.5 2 12.04 2m0 18.13a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.1.96.98-3.02-.2-.31a8.16 8.16 0 01-1.26-4.36c0-4.52 3.68-8.2 8.2-8.2 4.52 0 8.2 3.68 8.2 8.2s-3.68 8.06-8.33 8.06m4.5-6.13c-.25-.12-1.45-.72-1.67-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.78.96-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.98-1.22a7.4 7.4 0 01-1.37-1.7c-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.72 2.63 4.17 3.68.58.25 1.04.4 1.39.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28";
 
-const socialLinks = [
+const companyDetails = [
+  { label: "Razón social", value: "Grupo Corporativo Aguilar", href: undefined },
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/GrupoCorporativoAguilar",
-    path: "M22 12a10 10 0 10-11.6 9.87v-6.98H7.9V12h2.5V9.8c0-2.47 1.47-3.84 3.72-3.84 1.08 0 2.21.19 2.21.19v2.43h-1.24c-1.23 0-1.61.76-1.61 1.54V12h2.74l-.44 2.89h-2.3v6.98A10 10 0 0022 12z",
+    label: "Dirección",
+    value: "Francisco J. Mina 191, Col. Ricardo Flores Magón, Veracruz, Ver. · C.P. 91900",
+    href: undefined,
   },
-  {
-    label: "X (Twitter)",
-    href: "https://x.com/GrupoAguilarGCA",
-    path: "M18.24 3H21l-6.55 7.49L22.2 21h-6.3l-4.93-6.45L5.3 21H2.53l7.02-8.02L2 3h6.46l4.46 5.9L18.24 3zm-1.1 16.17h1.75L7 4.73H5.12l12.02 14.44z",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/grupoaguilargca/",
-    path: "M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 011.77 1.15 4.9 4.9 0 011.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 01-1.15 1.77 4.9 4.9 0 01-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 01-1.77-1.15 4.9 4.9 0 01-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 011.15-1.77A4.9 4.9 0 015.59 1.8c.46-.16 1.26-.35 2.43-.4C9.29 1.34 9.67 1.33 12 1.33m0 2c-3.14 0-3.5.01-4.73.07-.96.04-1.48.2-1.82.34-.46.18-.78.39-1.13.73-.34.35-.55.67-.73 1.13-.14.34-.3.86-.34 1.82-.06 1.23-.07 1.6-.07 4.73s.01 3.5.07 4.73c.04.96.2 1.48.34 1.82.18.46.39.78.73 1.13.35.34.67.55 1.13.73.34.14.86.3 1.82.34 1.23.06 1.6.07 4.73.07s3.5-.01 4.73-.07c.96-.04 1.48-.2 1.82-.34.46-.18.78-.39 1.13-.73.34-.35.55-.67.73-1.13.14-.34.3-.86.34-1.82.06-1.23.07-1.6.07-4.73s-.01-3.5-.07-4.73c-.04-.96-.2-1.48-.34-1.82a2.9 2.9 0 00-.73-1.13 2.9 2.9 0 00-1.13-.73c-.34-.14-.86-.3-1.82-.34-1.23-.06-1.6-.07-4.73-.07M12 6.87A5.13 5.13 0 1112 17.13 5.13 5.13 0 0112 6.87m0 2a3.13 3.13 0 100 6.26 3.13 3.13 0 000-6.26m5.34-3.6a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/grupo-corporativo-aguilar/",
-    path: "M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 110-4.13 2.07 2.07 0 010 4.13zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z",
-  },
-  {
-    label: "WhatsApp",
-    href: "https://wa.me/5212291614806",
-    path: "M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.62 1.44 5.19L2 22l5.03-1.55a9.9 9.9 0 004.97 1.35h.01c5.46 0 9.9-4.45 9.9-9.91C21.91 6.45 17.5 2 12.04 2m0 18.13a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.1.96.98-3.02-.2-.31a8.16 8.16 0 01-1.26-4.36c0-4.52 3.68-8.2 8.2-8.2 4.52 0 8.2 3.68 8.2 8.2s-3.68 8.06-8.33 8.06m4.5-6.13c-.25-.12-1.45-.72-1.67-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.78.96-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.98-1.22a7.4 7.4 0 01-1.37-1.7c-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.72 2.63 4.17 3.68.58.25 1.04.4 1.39.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28",
-  },
+  { label: "Teléfono", value: "(229) 202 0532 al 35", href: "tel:+522292020532" },
+  { label: "Correo", value: "perico@grupoaguilar.com.mx", href: "mailto:perico@grupoaguilar.com.mx" },
+  { label: "Sitio", value: "www.grupoaguilar.com.mx", href: "https://www.grupoaguilar.com.mx" },
 ];
 ---
 
-<section id="contacto" class="bg-surface px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
+<section id="contacto" class="bg-agca-dark px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
   <div class="mx-auto max-w-7xl">
-    <div class="max-w-2xl">
-      <h2 class="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-brand">
-        Hablemos de tu proyecto.
-      </h2>
-      <p class="mt-4 text-lg text-muted">
-        Cuéntanos qué necesitas y un ingeniero de nuestro equipo te contactará a la brevedad.
-      </p>
-    </div>
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="reveal-item">
+        <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-perico-accent">
+          <span aria-hidden="true">—</span> Contacto
+        </p>
+        <h2 class="mt-4 font-display text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.05] text-white">
+          Cuéntanos sobre tu proyecto.
+        </h2>
+        <p class="mt-5 max-w-lg text-lg leading-relaxed text-white/70">
+          Ya sea ingeniería con Perico o desarrollo con AGCA, un especialista de Grupo Aguilar te
+          contactará con los siguientes pasos.
+        </p>
 
-    <div class="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-      <form id="contact-form" novalidate class="space-y-5" aria-describedby="form-status">
-        <div>
-          <label for="name" class="block text-sm font-semibold text-ink">Nombre completo</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            autocomplete="name"
-            class="mt-2 w-full border border-panel-border bg-white px-4 py-3 text-ink outline-none transition-colors focus:border-brand"
-            aria-describedby="name-error"
-          />
-          <p id="name-error" role="alert" class="mt-1.5 hidden text-sm text-red-600"></p>
-        </div>
-
-        <div>
-          <label for="phone" class="block text-sm font-semibold text-ink">Teléfono</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            autocomplete="tel"
-            class="mt-2 w-full border border-panel-border bg-white px-4 py-3 text-ink outline-none transition-colors focus:border-brand"
-            aria-describedby="phone-error"
-          />
-          <p id="phone-error" role="alert" class="mt-1.5 hidden text-sm text-red-600"></p>
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-semibold text-ink">Correo</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            autocomplete="email"
-            class="mt-2 w-full border border-panel-border bg-white px-4 py-3 text-ink outline-none transition-colors focus:border-brand"
-            aria-describedby="email-error"
-          />
-          <p id="email-error" role="alert" class="mt-1.5 hidden text-sm text-red-600"></p>
-        </div>
-
-        <div>
-          <label for="message" class="block text-sm font-semibold text-ink">Mensaje</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="4"
-            required
-            class="mt-2 w-full resize-none border border-panel-border bg-white px-4 py-3 text-ink outline-none transition-colors focus:border-brand"
-            aria-describedby="message-error"
-          ></textarea>
-          <p id="message-error" role="alert" class="mt-1.5 hidden text-sm text-red-600"></p>
-        </div>
-
-        <button
-          type="submit"
-          id="form-submit"
-          class="inline-flex items-center gap-2 bg-brand px-8 py-3.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
+        <a
+          href="https://wa.me/5212291614806"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="whatsapp-btn mt-8 inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-semibold text-white"
         >
-          Enviar
-        </button>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d={whatsappPath} />
+          </svg>
+          Escríbenos por WhatsApp
+        </a>
 
-        <p id="form-status" role="status" aria-live="polite" class="text-sm text-muted"></p>
-      </form>
+        <a
+          href="mailto:perico@grupoaguilar.com.mx"
+          class="mt-5 flex w-fit items-center gap-2.5 text-sm font-medium text-white/80 transition-colors duration-300 ease-out hover:text-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.83.67-1.5 1.5-1.5h16.5c.83 0 1.5.67 1.5 1.5v10.5c0 .83-.67 1.5-1.5 1.5H3.75c-.83 0-1.5-.67-1.5-1.5V6.75z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.5l9.75 6.5 9.75-6.5" />
+          </svg>
+          perico@grupoaguilar.com.mx
+        </a>
+      </div>
 
-      <div class="space-y-8">
-        <div class="space-y-4 text-ink">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-wide text-muted">Dirección</p>
-            <p class="mt-1">Francisco J. Mina 191, Col. R. Flores Magón, Veracruz, Ver. CP. 91900</p>
+      <div class="reveal-item rounded-[24px] bg-agca-card p-8 sm:p-10">
+        {companyDetails.map((detail) => (
+          <div class="border-b border-white/10 py-5 first:pt-0 last:border-0 last:pb-0">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">{detail.label}</p>
+            {detail.href ? (
+              <a
+                href={detail.href}
+                target={detail.href.startsWith("http") ? "_blank" : undefined}
+                rel={detail.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                class="mt-2 block text-white transition-colors duration-300 ease-out hover:text-perico-accent"
+              >
+                {detail.value}
+              </a>
+            ) : (
+              <p class="mt-2 text-white">{detail.value}</p>
+            )}
           </div>
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-wide text-muted">Teléfono</p>
-            <a href="tel:+522292020532" class="mt-1 block transition-colors hover:text-brand">(229) 202 0532 al 35</a>
-          </div>
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-wide text-muted">Correo</p>
-            <a href="mailto:perico@grupoaguilar.com.mx" class="mt-1 block transition-colors hover:text-brand">perico@grupoaguilar.com.mx</a>
-          </div>
-        </div>
-
-        <div class="flex gap-3">
-          {socialLinks.map((social) => (
-            <a
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              class="flex h-11 w-11 items-center justify-center border border-panel-border text-ink transition-colors hover:border-brand hover:text-brand"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d={social.path} />
-              </svg>
-            </a>
-          ))}
-        </div>
-
-        <iframe
-          title="Ubicación de Grupo Corporativo Aguilar en Veracruz"
-          src={mapSrc}
-          class="h-72 w-full border border-panel-border sm:h-80"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        ))}
       </div>
     </div>
   </div>
 </section>
 
-<script>
-  const form = document.getElementById("contact-form") as HTMLFormElement;
-  const statusEl = document.getElementById("form-status") as HTMLElement;
-  const submitBtn = document.getElementById("form-submit") as HTMLButtonElement;
-
-  const fields = ["name", "phone", "email", "message"] as const;
-
-  function validators(el: HTMLInputElement | HTMLTextAreaElement): string {
-    if (!el.value.trim()) return "Este campo es obligatorio.";
-    if (el.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) {
-      return "Ingresa un correo válido.";
-    }
-    if (el.type === "tel" && el.value.replace(/\D/g, "").length < 10) {
-      return "Ingresa un teléfono a 10 dígitos.";
-    }
-    return "";
+<style>
+  .whatsapp-btn {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    transition: filter 300ms ease-out;
   }
 
-  function validateField(name: (typeof fields)[number]) {
-    const el = document.getElementById(name) as HTMLInputElement | HTMLTextAreaElement;
-    const errorEl = document.getElementById(`${name}-error`) as HTMLElement;
-    const message = validators(el);
-    if (message) {
-      errorEl.textContent = message;
-      errorEl.classList.remove("hidden");
-      el.classList.add("border-red-500");
-    } else {
-      errorEl.textContent = "";
-      errorEl.classList.add("hidden");
-      el.classList.remove("border-red-500");
-    }
-    return !message;
+  .whatsapp-btn:hover {
+    filter: brightness(0.9);
   }
-
-  fields.forEach((name) => {
-    const el = document.getElementById(name) as HTMLInputElement | HTMLTextAreaElement;
-    el.addEventListener("blur", () => validateField(name));
-  });
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const allValid = fields.map(validateField).every(Boolean);
-    if (!allValid) {
-      statusEl.textContent = "Revisa los campos marcados antes de continuar.";
-      return;
-    }
-
-    submitBtn.disabled = true;
-    statusEl.textContent = "Enviando…";
-
-    // TODO: connect real form submission here (email service / backend
-    // endpoint). This pass only validates client-side and simulates the
-    // request so the UI/UX is ready to wire up.
-    window.setTimeout(() => {
-      submitBtn.disabled = false;
-      statusEl.textContent = "¡Gracias! Recibimos tu mensaje y te contactaremos pronto.";
-      form.reset();
-    }, 700);
-  });
-</script>
+</style>
