@@ -71,12 +71,14 @@ const companies: Company[] = [
           </div>
 
           <div class="relative flex flex-1 flex-col">
-            <img
-              src={company.logo}
-              alt={company.logoAlt}
-              class={`w-auto max-w-[220px] object-contain object-left ${company.logoClass}`}
-              loading="lazy"
-            />
+            <div class="flex h-20 items-start sm:h-24">
+              <img
+                src={company.logo}
+                alt={company.logoAlt}
+                class={`w-auto max-w-[220px] object-contain object-left ${company.logoClass}`}
+                loading="lazy"
+              />
+            </div>
             <p class="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-brand">{company.eyebrow}</p>
             <h3 class="mt-2 font-display text-3xl font-bold text-ink sm:text-4xl">{company.name}</h3>
             <p class="mt-4 text-base leading-relaxed text-muted">{company.description}</p>
