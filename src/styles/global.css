@@ -60,6 +60,17 @@
      the dedicated "Ingeniería Perico" section — distinct from the pale
      --color-perico-tint used for the corner blob in "Nuestras Empresas". */
   --color-perico-accent: #77ad3b;
+
+  /* AGCA's own dark palette — deep navy-black (darker than --color-brand,
+     per spec) for its dedicated section background, a lighter "floating
+     pill" card shade (10% white mixed in), and its full-saturation
+     magenta accent (#dd0072, sampled from agca.jpg — same hue as
+     --color-agca-tint, used here at full strength for eyebrow/bullets/
+     hover on the dark background). Perico's green is deliberately not
+     reused here so each subsidiary keeps its own identity color. */
+  --color-agca-dark: #0e1642;
+  --color-agca-card: #262d55;
+  --color-agca-accent: #dd0072;
 }
 
 html {
