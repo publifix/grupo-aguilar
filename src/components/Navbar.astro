@@ -3,8 +3,10 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
 const navLinks = [
   { href: `${base}#inicio`, label: "Inicio" },
-  { href: `${base}#quienes-somos`, label: "Quiénes Somos" },
-  { href: `${base}#servicios`, label: "Servicios" },
+  { href: `${base}#empresas`, label: "Nuestras Empresas" },
+  { href: `${base}#perico`, label: "Perico" },
+  { href: `${base}#agca`, label: "AGCA" },
+  { href: `${base}#clientes`, label: "Clientes" },
   { href: `${base}#contacto`, label: "Contacto" },
 ];
 ---
@@ -13,8 +15,8 @@ const navLinks = [
   <div class="flex h-full items-stretch justify-between">
     <a
       href={`${base}#inicio`}
-      class="ml-4 flex shrink-0 items-center gap-3 bg-white px-4 sm:gap-4 sm:px-6 md:ml-6 lg:ml-10"
-      aria-label="Grupo Corporativo Aguilar — Ingeniería Perico, ir al inicio"
+      class="ml-4 flex shrink-0 items-center bg-white px-4 sm:px-6 md:ml-6 lg:ml-10"
+      aria-label="Grupo Corporativo Aguilar, ir al inicio"
     >
       <img
         src={`${base}images/logo-grupo-aguilar.png`}
@@ -22,14 +24,6 @@ const navLinks = [
         class="h-8 w-auto sm:h-10"
         width="166"
         height="55"
-      />
-      <span class="h-8 w-px bg-slate-200 sm:h-10" aria-hidden="true"></span>
-      <img
-        src={`${base}images/logo-ingenieria-perico.png`}
-        alt="Ingeniería Perico"
-        class="h-8 w-auto sm:h-10"
-        width="3412"
-        height="1836"
       />
     </a>
 
@@ -41,13 +35,6 @@ const navLinks = [
           </a>
         ))}
       </nav>
-
-      <a
-        href={`${base}#servicios`}
-        class="hidden shrink-0 whitespace-nowrap bg-white px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-brand transition-colors hover:bg-white/90 lg:inline-block"
-      >
-        Conoce nuestros servicios
-      </a>
 
       <button
         id="mobile-menu-button"
@@ -77,12 +64,6 @@ const navLinks = [
         {link.label}
       </a>
     ))}
-    <a
-      href={`${base}#servicios`}
-      class="mt-1 bg-brand px-4 py-3 text-center text-base font-semibold uppercase tracking-wide text-white"
-    >
-      Conoce nuestros servicios
-    </a>
   </nav>
 </header>
 

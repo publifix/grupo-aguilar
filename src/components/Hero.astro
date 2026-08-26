@@ -1,406 +1,49 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
-
-interface Slide {
-  video: string;
-  headline: string[];
-  copy: string;
-}
-
-const slides: Slide[] = [
-  {
-    video: `${base}videos/hero-1.mp4`,
-    headline: ["Brindamos servicios", "de ingeniería de ALTA", "CALIDAD."],
-    copy: "Soluciones técnicas confiables para cada etapa de tu proyecto.",
-  },
-  {
-    video: `${base}videos/hero-2.mp4`,
-    headline: ["Especialistas en obras", "de electromecánica y", "urbanización."],
-    copy: "Ejecución precisa, de la ingeniería de detalle a la puesta en marcha.",
-  },
-  {
-    video: `${base}videos/hero-3.mp4`,
-    headline: ["Contamos con personal", "capacitado, profesional", "y eficiente."],
-    copy: "Un equipo técnico comprometido con la seguridad y la calidad.",
-  },
-  {
-    video: `${base}videos/hero-4.mp4`,
-    headline: ["Más de 40 años", "construyendo", "infraestructura."],
-    copy: "Respaldados por la certificación ISO 9001:2015.",
-  },
-];
 ---
 
 <section
   id="inicio"
-  class="hero relative w-full bg-brand-ink"
-  aria-roledescription="carrusel"
-  aria-label="Presentación destacada de Grupo Corporativo Aguilar"
+  class="relative h-[calc(100svh-4rem)] min-h-[520px] w-full overflow-hidden bg-brand-ink sm:h-[calc(100svh-5rem)]"
 >
-  <!-- Video: stacked above the panel on mobile, full-bleed behind it from md+ -->
-  <div class="relative h-[46vh] min-h-[280px] w-full overflow-hidden sm:h-[52vh] md:h-[calc(100svh-5rem)]">
-    <div class="absolute inset-0" id="hero-stage">
-      {slides.map((slide, i) => (
-        <div
-          class="hero-layer absolute inset-0"
-          data-slide={i}
-          style={`clip-path: ${i === 0 ? "inset(0% 0% 0% 0%)" : "inset(0% 100% 0% 0%)"}; z-index: ${i === 0 ? 2 : 1};`}
-        >
-          <video
-            class="h-full w-full object-cover"
-            muted
-            loop
-            playsinline
-            autoplay={i === 0}
-            preload={i === 0 ? "auto" : "none"}
-            data-src={slide.video}
-            src={i === 0 ? slide.video : undefined}
-          />
-        </div>
-      ))}
-      <!-- traveling wipe blade -->
-      <div id="hero-blade" class="pointer-events-none absolute inset-y-0 z-10 w-1.5 bg-white opacity-0 shadow-[0_0_24px_4px_rgba(255,255,255,0.5)] sm:w-2"></div>
-    </div>
-  </div>
+  <img
+    src={`${base}images/hero/grupo-aguilar-hero.jpg`}
+    srcset={`${base}images/hero/grupo-aguilar-hero-mobile.jpg 900w, ${base}images/hero/grupo-aguilar-hero.jpg 2000w`}
+    sizes="100vw"
+    alt="Vista aérea de una obra de urbanización de Grupo Corporativo Aguilar con personal de campo supervisando la construcción"
+    class="absolute inset-0 h-full w-full object-cover"
+    fetchpriority="high"
+    loading="eager"
+    width="2000"
+    height="1333"
+  />
 
-  <!-- Text panel: solid brand-blue card, sized to its content. From md+ it floats above the
-       video with air on every side except the bottom, which it always touches; it sits above
-       the wipe/blade (z-30) so the cut transition is only ever visible over the open video. -->
-  <div class="relative z-30 w-full bg-brand md:absolute md:bottom-0 md:left-6 md:w-[28rem] lg:left-10 lg:w-[32rem]">
-    <div class="px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-11">
-      <h1
-        id="hero-headline"
-        class="font-sans text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-[1.15] text-white"
-      >
-        {slides[0].headline.map((line) => (
-          <span class="hero-line block overflow-hidden">
-            <span class="hero-line-inner block">{line}</span>
-          </span>
-        ))}
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-ink/95 via-brand-ink/50 to-transparent"></div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-ink/70 via-transparent to-transparent"></div>
+
+  <div class="relative z-10 flex h-full items-end">
+    <div class="max-w-2xl px-6 pb-14 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
+      <h1 class="reveal-item font-display text-[clamp(2.25rem,6vw,4.5rem)] font-bold leading-[1.05] text-white">
+        Grupo Corporativo Aguilar
       </h1>
-      <p id="hero-copy" class="hero-copy mt-4 text-[clamp(0.9rem,1.4vw,1rem)] text-white/80">
-        {slides[0].copy}
+      <p class="reveal-item mt-5 max-w-xl text-[clamp(1rem,1.6vw,1.25rem)] text-white/85">
+        Ingeniería eléctrica, infraestructura y desarrollo inmobiliario del más alto nivel —
+        con Ingeniería Perico y AGCA.
       </p>
-      <a
-        href="#servicios"
-        class="mt-7 inline-block bg-white px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-brand transition-colors hover:bg-white/90"
-      >
-        Conoce nuestros servicios
-      </a>
-
-      <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <div class="flex gap-2">
-          <button type="button" id="hero-prev" aria-label="Diapositiva anterior" class="hero-arrow-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button type="button" id="hero-next" aria-label="Siguiente diapositiva" class="hero-arrow-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-
-        <div id="hero-dots" class="flex items-center gap-2.5" role="tablist" aria-label="Seleccionar diapositiva">
-          {slides.map((_, i) => (
-            <button
-              type="button"
-              class="hero-dot"
-              data-dot={i}
-              role="tab"
-              aria-selected={i === 0 ? "true" : "false"}
-              aria-label={`Ir a la diapositiva ${i + 1}`}
-            ></button>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          id="hero-playpause"
-          aria-pressed="true"
-          aria-label="Pausar presentación automática"
-          class="ml-auto text-white/70 transition-colors hover:text-white"
+      <div class="reveal-item mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href={`${base}#empresas`}
+          class="inline-block bg-white px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-brand transition-colors hover:bg-white/90"
         >
-          <svg id="hero-pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="6" y="5" width="4" height="14" rx="0.5" />
-            <rect x="14" y="5" width="4" height="14" rx="0.5" />
-          </svg>
-          <svg id="hero-play-icon" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </button>
+          Nuestras Empresas
+        </a>
+        <a
+          href={`${base}#contacto`}
+          class="inline-block border border-white px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+        >
+          Contacto
+        </a>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  .hero-layer video {
-    will-change: clip-path;
-  }
-
-  .hero-arrow-btn {
-    display: inline-flex;
-    height: 2.75rem;
-    width: 2.75rem;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(255 255 255 / 0.4);
-    color: white;
-    transition: background-color 200ms ease, border-color 200ms ease;
-  }
-
-  .hero-arrow-btn:hover {
-    background-color: rgb(255 255 255 / 0.12);
-    border-color: rgb(255 255 255 / 0.7);
-  }
-
-  .hero-arrow-btn:active {
-    transform: scale(0.96);
-  }
-
-  .hero-dot {
-    height: 0.5rem;
-    width: 0.5rem;
-    border-radius: 9999px;
-    border: 1px solid rgb(255 255 255 / 0.6);
-    background-color: transparent;
-    transition: background-color 200ms ease, transform 200ms ease;
-  }
-
-  .hero-dot[aria-selected="true"] {
-    background-color: white;
-    transform: scale(1.15);
-  }
-
-  .hero-line-inner {
-    transform: translateY(110%);
-  }
-
-  .hero-copy {
-    opacity: 0;
-  }
-</style>
-
-<noscript>
-  <style>
-    .hero-line-inner {
-      transform: none !important;
-    }
-    .hero-copy {
-      opacity: 1 !important;
-    }
-  </style>
-</noscript>
-
-<script>
-  import gsap from "gsap";
-
-  type SlideEl = {
-    root: HTMLElement;
-    video: HTMLVideoElement;
-  };
-
-  const stage = document.getElementById("hero-stage") as HTMLElement;
-  const blade = document.getElementById("hero-blade") as HTMLElement;
-  const headlineEl = document.getElementById("hero-headline") as HTMLElement;
-  const copyEl = document.getElementById("hero-copy") as HTMLElement;
-  const dots = Array.from(document.querySelectorAll<HTMLButtonElement>(".hero-dot"));
-  const prevBtn = document.getElementById("hero-prev") as HTMLButtonElement;
-  const nextBtn = document.getElementById("hero-next") as HTMLButtonElement;
-  const playPauseBtn = document.getElementById("hero-playpause") as HTMLButtonElement;
-  const pauseIcon = document.getElementById("hero-pause-icon") as HTMLElement;
-  const playIcon = document.getElementById("hero-play-icon") as HTMLElement;
-
-  const slideData = [
-    { headline: ["Brindamos servicios", "de ingeniería de ALTA", "CALIDAD."], copy: "Soluciones técnicas confiables para cada etapa de tu proyecto." },
-    { headline: ["Especialistas en obras", "de electromecánica y", "urbanización."], copy: "Ejecución precisa, de la ingeniería de detalle a la puesta en marcha." },
-    { headline: ["Contamos con personal", "capacitado, profesional", "y eficiente."], copy: "Un equipo técnico comprometido con la seguridad y la calidad." },
-    { headline: ["Más de 40 años", "construyendo", "infraestructura."], copy: "Respaldados por la certificación ISO 9001:2015." },
-  ];
-
-  const layers: SlideEl[] = Array.from(stage.querySelectorAll<HTMLElement>(".hero-layer")).map((root) => ({
-    root,
-    video: root.querySelector("video") as HTMLVideoElement,
-  }));
-
-  const total = layers.length;
-  const SLIDE_DURATION = 6500;
-  const WIPE_DURATION = 0.9;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  let current = 0;
-  let autoplay = !reduceMotion;
-  let timer: number | null = null;
-  let transitioning = false;
-
-  function ensureLoaded(index: number) {
-    const { video } = layers[index];
-    if (!video.src && video.dataset.src) {
-      video.src = video.dataset.src;
-      video.load();
-    }
-  }
-
-  function playVideo(index: number) {
-    ensureLoaded(index);
-    const { video } = layers[index];
-    video.play().catch(() => {});
-  }
-
-  function pauseVideo(index: number) {
-    layers[index].video.pause();
-  }
-
-  function updateDots(index: number) {
-    dots.forEach((dot, i) => dot.setAttribute("aria-selected", i === index ? "true" : "false"));
-  }
-
-  function updateText(index: number) {
-    const data = slideData[index];
-    headlineEl.innerHTML = data.headline
-      .map((line) => `<span class="hero-line block overflow-hidden"><span class="hero-line-inner block">${line}</span></span>`)
-      .join("");
-    copyEl.textContent = data.copy;
-    updateDots(index);
-  }
-
-  function revealText() {
-    const lines = headlineEl.querySelectorAll(".hero-line-inner");
-    const tl = gsap.timeline();
-    if (reduceMotion) {
-      gsap.set(lines, { y: 0 });
-      gsap.set(copyEl, { opacity: 1 });
-      return;
-    }
-    tl.set(lines, { y: "110%" })
-      .set(copyEl, { opacity: 0, y: 12 })
-      .to(lines, { y: "0%", duration: 0.7, stagger: 0.1, ease: "power3.out" })
-      .to(copyEl, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.3");
-  }
-
-  function goTo(index: number) {
-    if (transitioning || index === current) return;
-    transitioning = true;
-
-    const from = current;
-    const to = ((index % total) + total) % total;
-    current = to;
-
-    playVideo(to);
-    layers[to].root.style.zIndex = "2";
-    layers[from].root.style.zIndex = "1";
-
-    if (reduceMotion) {
-      layers[to].root.style.clipPath = "inset(0% 0% 0% 0%)";
-      layers[from].root.style.clipPath = "inset(0% 100% 0% 0%)";
-      pauseVideo(from);
-      updateText(to);
-      revealText();
-      transitioning = false;
-      return;
-    }
-
-    const proxy = { r: 100 };
-    layers[to].root.style.clipPath = "inset(0% 100% 0% 0%)";
-    gsap.set(blade, { left: "0%", opacity: 1 });
-
-    gsap.to(proxy, {
-      r: 0,
-      duration: WIPE_DURATION,
-      ease: "power4.inOut",
-      onUpdate: () => {
-        layers[to].root.style.clipPath = `inset(0% ${proxy.r}% 0% 0%)`;
-        blade.style.left = `${100 - proxy.r}%`;
-      },
-      onComplete: () => {
-        gsap.to(blade, { opacity: 0, duration: 0.25 });
-        pauseVideo(from);
-        layers[from].root.style.clipPath = "inset(0% 100% 0% 0%)";
-        updateText(to);
-        revealText();
-        transitioning = false;
-      },
-    });
-
-    // preload the following clip so its wipe-in is instant
-    ensureLoaded((to + 1) % total);
-  }
-
-  function scheduleNext() {
-    if (timer) window.clearTimeout(timer);
-    if (!autoplay) return;
-    timer = window.setTimeout(() => {
-      goTo(current + 1);
-      scheduleNext();
-    }, SLIDE_DURATION);
-  }
-
-  function stopAutoplay() {
-    autoplay = false;
-    if (timer) window.clearTimeout(timer);
-    playPauseBtn.setAttribute("aria-pressed", "false");
-    playPauseBtn.setAttribute("aria-label", "Reanudar presentación automática");
-    pauseIcon.classList.add("hidden");
-    playIcon.classList.remove("hidden");
-    pauseVideo(current);
-  }
-
-  function startAutoplay() {
-    autoplay = true;
-    playPauseBtn.setAttribute("aria-pressed", "true");
-    playPauseBtn.setAttribute("aria-label", "Pausar presentación automática");
-    pauseIcon.classList.remove("hidden");
-    playIcon.classList.add("hidden");
-    playVideo(current);
-    scheduleNext();
-  }
-
-  prevBtn.addEventListener("click", () => {
-    goTo(current - 1);
-    if (autoplay) scheduleNext();
-  });
-
-  nextBtn.addEventListener("click", () => {
-    goTo(current + 1);
-    if (autoplay) scheduleNext();
-  });
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      goTo(i);
-      if (autoplay) scheduleNext();
-    });
-  });
-
-  playPauseBtn.addEventListener("click", () => {
-    if (autoplay) stopAutoplay();
-    else startAutoplay();
-  });
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) pauseVideo(current);
-    else if (autoplay) playVideo(current);
-  });
-
-  // init
-  gsap.set(headlineEl.querySelectorAll(".hero-line-inner"), { y: reduceMotion ? "0%" : "110%" });
-  gsap.set(copyEl, { opacity: reduceMotion ? 1 : 0 });
-  if (!reduceMotion) {
-    gsap.timeline()
-      .to(headlineEl.querySelectorAll(".hero-line-inner"), { y: "0%", duration: 0.8, stagger: 0.1, ease: "power3.out", delay: 0.2 })
-      .to(copyEl, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.35");
-  }
-
-  playVideo(0);
-  ensureLoaded(1);
-
-  if (autoplay) scheduleNext();
-  else {
-    playPauseBtn.setAttribute("aria-pressed", "false");
-    playPauseBtn.setAttribute("aria-label", "Reanudar presentación automática");
-    pauseIcon.classList.add("hidden");
-    playIcon.classList.remove("hidden");
-  }
-</script>

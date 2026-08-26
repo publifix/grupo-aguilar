@@ -11,19 +11,24 @@
   Design tokens — sourced via the ui-ux-pro-max skill (--design-system query:
   "engineering construction corporate industrial serious", cross-referenced
   with the Legal Services / B2B Service navy color matches) and mapped onto
-  the client's mandated brand colors (#1a286f on #ffffff). Body/UI typography
+  the client's mandated brand colors (#182677 on #ffffff). Body/UI typography
   uses the "Financial Trust" pairing (IBM Plex Sans) established in the hero.
   Section/stat headlines add "Barlow Condensed" (skill match for condensed,
   bold, industrial headline type) to echo the Jacobs reference's condensed
   display treatment without replacing the site's base typeface.
+
+  --color-brand-deep/-ink are darker shades of --color-brand, recomputed
+  proportionally from the previous #1a286f base when the brand color moved
+  to #182677, so hover/background states stay a consistent family of blues
+  instead of drifting toward the old hue.
 */
 @theme {
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Barlow Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand: #1a286f;
-  --color-brand-deep: #121d54;
-  --color-brand-ink: #0a1230;
+  --color-brand: #182677;
+  --color-brand-deep: #111c5a;
+  --color-brand-ink: #091133;
   --color-surface: #ffffff;
   --color-ink: #0f172a;
   --color-muted: #64748b;

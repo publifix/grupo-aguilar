@@ -90,7 +90,7 @@ const companies: Company[] = [
         <button
           type="button"
           role="tab"
-          id={`tab-${company.id}`}
+          id={company.id}
           aria-controls={`panel-${company.id}`}
           aria-selected={i === 0 ? "true" : "false"}
           data-company={company.id}
@@ -106,7 +106,7 @@ const companies: Company[] = [
         <div
           id={`panel-${company.id}`}
           role="tabpanel"
-          aria-labelledby={`tab-${company.id}`}
+          aria-labelledby={company.id}
           data-company-panel={company.id}
           class="company-panel grid grid-cols-1 md:grid-cols-2"
           style={i === 0 ? "" : "display:none"}
@@ -146,36 +146,50 @@ const companies: Company[] = [
   const panels = Array.from(document.querySelectorAll<HTMLElement>(".company-panel"));
   let switching = false;
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      if (switching) return;
-      const id = tab.dataset.company;
-      const activePanel = panels.find((p) => p.style.display !== "none");
-      const nextPanel = panels.find((p) => p.dataset.companyPanel === id);
-      if (!nextPanel || nextPanel === activePanel) return;
+  function activateTab(tab: HTMLButtonElement, animate = true) {
+    if (switching) return;
+    const id = tab.dataset.company;
+    const activePanel = panels.find((p) => p.style.display !== "none");
+    const nextPanel = panels.find((p) => p.dataset.companyPanel === id);
+    if (!nextPanel || nextPanel === activePanel) return;
 
-      switching = true;
-      tabs.forEach((t) => t.setAttribute("aria-selected", t === tab ? "true" : "false"));
+    switching = true;
+    tabs.forEach((t) => t.setAttribute("aria-selected", t === tab ? "true" : "false"));
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion || !activePanel) {
-        if (activePanel) activePanel.style.display = "none";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!animate || reduceMotion || !activePanel) {
+      if (activePanel) activePanel.style.display = "none";
+      nextPanel.style.display = "";
+      switching = false;
+      return;
+    }
+
+    gsap.to(activePanel, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power1.in",
+      onComplete: () => {
+        activePanel.style.display = "none";
         nextPanel.style.display = "";
+        gsap.fromTo(nextPanel, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
         switching = false;
-        return;
-      }
-
-      gsap.to(activePanel, {
-        opacity: 0,
-        duration: 0.2,
-        ease: "power1.in",
-        onComplete: () => {
-          activePanel.style.display = "none";
-          nextPanel.style.display = "";
-          gsap.fromTo(nextPanel, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
-          switching = false;
-        },
-      });
+      },
     });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => activateTab(tab));
   });
+
+  // Deep links from the navbar (#perico, #agca) both activate the right
+  // tab and land on it, whether arriving fresh or via same-page hash nav.
+  function activateFromHash() {
+    const id = window.location.hash.replace("#", "");
+    const tab = tabs.find((t) => t.id === id);
+    if (tab && tab.getAttribute("aria-selected") !== "true") {
+      activateTab(tab, false);
+    }
+  }
+  window.addEventListener("hashchange", activateFromHash);
+  activateFromHash();
 </script>
