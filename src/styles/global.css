@@ -47,6 +47,13 @@
      background for "Nuestras Empresas", to differentiate it from the
      neutral-gray panel tone used elsewhere. */
   --color-brand-tint: #edeef4;
+
+  /* Very soft (10% over white) tints of each subsidiary's own brand accent
+     — Perico's green (#77ad3b, sampled from logo-perico.png) and AGCA's
+     magenta (#dd0072, sampled from agca.jpg) — used for each company card's
+     decorative corner shape in "Nuestras Empresas". */
+  --color-perico-tint: #f1f7eb;
+  --color-agca-tint: #fce6f1;
 }
 
 html {
