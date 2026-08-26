@@ -7,6 +7,7 @@ interface Company {
   name: string;
   logo: string;
   logoAlt: string;
+  logoClass: string;
   description: string;
   points: string[];
   ctaLabel: string;
@@ -20,6 +21,7 @@ const companies: Company[] = [
     name: "Ingeniería Perico",
     logo: `${base}images/empresas/logo-perico.png`,
     logoAlt: "Logotipo de Ingeniería Perico",
+    logoClass: "h-12 sm:h-14",
     description:
       "Proyectos eléctricos, electromecánicos, civiles y de urbanización — de la subestación a la ciudad.",
     points: [
@@ -28,7 +30,7 @@ const companies: Company[] = [
       "Obra civil y urbanización",
     ],
     ctaLabel: "Ver servicios de Perico",
-    blobClass: "bg-brand/5",
+    blobClass: "bg-perico-tint",
   },
   {
     id: "agca",
@@ -36,6 +38,7 @@ const companies: Company[] = [
     name: "AGCA",
     logo: `${base}images/empresas/agca.jpg`,
     logoAlt: "Logotipo de Desarrollo Inmobiliario AGCA",
+    logoClass: "h-20 sm:h-24",
     description:
       "Fraccionamientos, plazas y edificación vertical — desarrollo inmobiliario respaldado por capacidad técnica propia.",
     points: [
@@ -44,7 +47,7 @@ const companies: Company[] = [
       "Plazas y edificación vertical",
     ],
     ctaLabel: "Ver desarrollo AGCA",
-    blobClass: "bg-brand/10",
+    blobClass: "bg-agca-tint",
   },
 ];
 ---
@@ -71,7 +74,7 @@ const companies: Company[] = [
             <img
               src={company.logo}
               alt={company.logoAlt}
-              class="h-12 w-auto max-w-[220px] object-contain sm:h-14"
+              class={`w-auto max-w-[220px] object-contain object-left ${company.logoClass}`}
               loading="lazy"
             />
             <p class="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-brand">{company.eyebrow}</p>
