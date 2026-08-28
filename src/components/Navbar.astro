@@ -11,11 +11,11 @@ const navLinks = [
 ];
 ---
 
-<header id="site-header" class="sticky top-0 z-50 h-16 bg-brand sm:h-20">
+<header id="site-header" class="sticky top-0 z-50 h-16 border-b border-panel-border bg-white sm:h-20">
   <div class="flex h-full items-stretch justify-between">
     <a
       href={`${base}#inicio`}
-      class="ml-4 flex shrink-0 items-center bg-white px-4 sm:px-6 md:ml-6 lg:ml-10"
+      class="ml-4 flex shrink-0 items-center px-4 sm:px-6 md:ml-6 lg:ml-10"
       aria-label="Grupo Corporativo Aguilar, ir al inicio"
     >
       <img
@@ -30,7 +30,7 @@ const navLinks = [
     <div class="flex items-center gap-6 pr-4 sm:pr-6 lg:pr-8 xl:gap-8">
       <nav aria-label="Principal" class="hidden items-center gap-6 whitespace-nowrap text-sm font-medium lg:flex xl:gap-8">
         {navLinks.map((link) => (
-          <a href={link.href} class="text-white/90 transition-colors hover:text-white">
+          <a href={link.href} class="text-brand transition-colors hover:text-brand-deep">
             {link.label}
           </a>
         ))}
@@ -39,7 +39,7 @@ const navLinks = [
       <button
         id="mobile-menu-button"
         type="button"
-        class="inline-flex h-11 w-11 items-center justify-center text-white lg:hidden"
+        class="inline-flex h-11 w-11 items-center justify-center text-brand lg:hidden"
         aria-label="Abrir menú de navegación"
         aria-expanded="false"
         aria-controls="mobile-menu"
