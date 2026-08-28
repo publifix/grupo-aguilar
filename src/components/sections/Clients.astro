@@ -74,7 +74,7 @@ const accentVars: Record<(typeof accentSequence)[number], string> = {
   <div class="reveal-item mx-auto mt-14 flex max-w-6xl flex-wrap justify-center gap-3 sm:gap-4">
     {clients.map((client, i) => (
       <div
-        class={`client-pill flex items-center justify-center rounded-full border-2 bg-white ${client.featured ? "px-7 py-4" : "px-5 py-3"}`}
+        class={`client-pill flex items-center justify-center rounded-full border-2 bg-panel ${client.featured ? "px-7 py-4" : "px-5 py-3"}`}
         style={`--pill-color: ${accentVars[accentSequence[i]]}`}
       >
         <img

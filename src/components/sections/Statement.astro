@@ -8,7 +8,13 @@ const stats = [
     id: undefined,
     icon: "globe",
   },
-  { value: "ISO 9001:2015", label: "Certificación de calidad", id: "certificacion", icon: "check" },
+  {
+    value: "ISO 9001:2015",
+    label: "Certificación de calidad",
+    caption: "En proceso de certificación",
+    id: "certificacion",
+    icon: "check",
+  },
   { value: "2", label: "Empresas en el grupo", id: undefined, icon: undefined },
 ];
 ---
@@ -49,6 +55,7 @@ const stats = [
             <p class="font-display text-4xl font-bold text-brand sm:text-5xl">{stat.value}</p>
           )}
           {stat.label && <p class="mt-2 text-sm text-muted">{stat.label}</p>}
+          {stat.caption && <p class="mt-1 text-xs italic text-muted">{stat.caption}</p>}
           {stat.text && <p class="text-lg font-semibold leading-snug text-brand">{stat.text}</p>}
         </div>
       ))}
