@@ -4,21 +4,22 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 interface Client {
   name: string;
   slug: string;
-  featured?: boolean;
 }
 
-// First row (featured, larger pills) is the client's explicit order.
+// First 7 (the first row on desktop) is the client's explicit order.
 // Everything after that is ours to arrange: government bodies and
 // larger corporates first, down to smaller-scale residential
-// developments.
+// developments. Every logo now renders in an identically sized cell
+// (see the grid below), so this order is the only thing that decides
+// how the wall reads — there's no separate "featured" size tier.
 const clients: Client[] = [
-  { name: "Carso", slug: "carso", featured: true },
-  { name: "Nissan", slug: "nissan", featured: true },
-  { name: "Nestlé", slug: "nestle", featured: true },
-  { name: "Tenaris Tamsa", slug: "tenaris-tamsa", featured: true },
-  { name: "CICE", slug: "cice", featured: true },
-  { name: "Constellation Brands", slug: "constellation-brands", featured: true },
-  { name: "Star Médica", slug: "star-medica", featured: true },
+  { name: "Carso", slug: "carso" },
+  { name: "Nissan", slug: "nissan" },
+  { name: "Nestlé", slug: "nestle" },
+  { name: "Tenaris Tamsa", slug: "tenaris-tamsa" },
+  { name: "CICE", slug: "cice" },
+  { name: "Constellation Brands", slug: "constellation-brands" },
+  { name: "Star Médica", slug: "star-medica" },
 
   { name: "Pemex", slug: "pemex" },
   { name: "CFE", slug: "cfe" },
@@ -49,8 +50,6 @@ const clients: Client[] = [
   { name: "Residencial Del Bosque", slug: "residencial-del-bosque" },
   { name: "CSI", slug: "csi" },
 ];
-
-const featuredCount = clients.filter((client) => client.featured).length;
 ---
 
 <section id="clientes" class="bg-brand-tint px-6 py-20 sm:px-8 sm:py-24 lg:px-12">
@@ -63,21 +62,16 @@ const featuredCount = clients.filter((client) => client.featured).length;
     </h2>
   </div>
 
-  <div class="reveal-item mx-auto mt-14 flex max-w-7xl flex-wrap justify-center gap-3 sm:gap-4">
-    {clients.map((client, i) => (
-      <>
-        {i === featuredCount && <div class="basis-full" aria-hidden="true"></div>}
-        <div
-          class={`client-pill flex items-center justify-center rounded-full border-2 border-panel-border bg-panel ${client.featured ? "px-7 py-4" : "px-5 py-3"}`}
-        >
-          <img
-            src={`${base}images/clientes/${client.slug}.png`}
-            alt={`Logotipo de ${client.name}`}
-            loading="lazy"
-            class={`w-auto object-contain ${client.featured ? "h-9 max-w-[150px] sm:h-10" : "h-7 max-w-[120px] sm:h-8"}`}
-          />
-        </div>
-      </>
+  <div class="reveal-item mx-auto mt-14 flex max-w-6xl flex-wrap justify-center gap-3 sm:gap-4">
+    {clients.map((client) => (
+      <div class="client-pill flex h-16 w-32 items-center justify-center rounded-full border-2 border-panel-border bg-panel px-4 sm:h-20 sm:w-36 sm:px-5">
+        <img
+          src={`${base}images/clientes/${client.slug}.png`}
+          alt={`Logotipo de ${client.name}`}
+          loading="lazy"
+          class="max-h-8 max-w-full object-contain sm:max-h-10"
+        />
+      </div>
     ))}
   </div>
 </section>
