@@ -4,6 +4,7 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
   ogImage?: string;
   ogImageAlt?: string;
   robots?: string;
@@ -12,15 +13,23 @@ interface Props {
 const {
   title,
   description = "Grupo Corporativo Aguilar: ingeniería eléctrica, civil y electromecánica con Ingeniería Perico, y desarrollo inmobiliario con AGCA. Más de 40 años en Veracruz, certificados ISO 9001:2015.",
+  keywords = "ingeniería eléctrica Veracruz, ingeniería electromecánica, urbanización, Ingeniería Perico, AGCA desarrollo inmobiliario, construcción Veracruz, ISO 9001",
   ogImage,
   ogImageAlt = "Grupo Corporativo Aguilar — ingeniería, infraestructura y desarrollo inmobiliario en Veracruz",
   robots = "index, follow",
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
-const siteUrl = "https://publifix.github.io/grupo-aguilar/";
-const canonicalUrl = new URL(Astro.url.pathname.replace(import.meta.env.BASE_URL, ""), siteUrl).toString();
-const resolvedOgImage = new URL(ogImage ?? `${base}images/og-image.jpg`, Astro.site ?? siteUrl).toString();
+const siteOrigin = "https://publifix.github.io/";
+const siteUrl = `${siteOrigin}${base.replace(/^\//, "")}`;
+// Astro.url.pathname already includes the GitHub Pages project base (e.g.
+// "/grupo-aguilar/aviso-de-privacidad/"), so it only needs to be resolved
+// against the bare domain — NOT against siteUrl, which already has the base
+// baked in too. Joining a leading-slash path against a base URL that itself
+// has a subpath silently drops that subpath (this previously shipped with
+// every canonical/og:url missing "/grupo-aguilar" entirely).
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+const resolvedOgImage = new URL(ogImage ?? `${base}images/og-image.jpg`, siteOrigin).toString();
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -51,18 +60,34 @@ const jsonLd = {
     "https://www.instagram.com/grupoaguilargca/",
     "https://www.linkedin.com/company/grupo-corporativo-aguilar/",
   ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+52-229-202-0532",
+      contactType: "customer service",
+      email: "perico@grupoaguilar.com.mx",
+      areaServed: "MX",
+      availableLanguage: ["es"],
+    },
+  ],
   department: [
     {
       "@type": "Organization",
+      "@id": `${siteUrl}#perico`,
       name: "Ingeniería Perico",
       description: "Ingeniería eléctrica, electromecánica y civil desde 1986.",
       url: `${siteUrl}#perico`,
+      logo: new URL(`${base}images/empresas/logo-perico.png`, siteUrl).toString(),
+      parentOrganization: { "@id": `${siteUrl}#organization` },
     },
     {
       "@type": "Organization",
+      "@id": `${siteUrl}#agca`,
       name: "AGCA Desarrollo Inmobiliario",
       description: "Fraccionamientos, plazas y edificación vertical en Veracruz.",
       url: `${siteUrl}#agca`,
+      logo: new URL(`${base}images/empresas/agca.jpg`, siteUrl).toString(),
+      parentOrganization: { "@id": `${siteUrl}#organization` },
     },
   ],
   hasOfferCatalog: {
@@ -98,6 +123,7 @@ const jsonLd = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonicalUrl} />
 
