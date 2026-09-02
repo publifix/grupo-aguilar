@@ -5,6 +5,11 @@ interface Project {
   name: string;
   image: string;
   alt: string;
+  // Optional CSS object-position override. The photo frame is a wide
+  // 21:9 crop of a much squarer source photo, so it always crops some
+  // of the top/bottom — this lets a specific photo shift that crop
+  // window instead of always centering.
+  focus?: string;
 }
 
 // Clicking a project swaps the clubhouse photo above for that project's
@@ -20,12 +25,15 @@ const projects: Project[] = [
   {
     name: "Dos Riberas",
     image: "agca-dos-riberas.webp",
-    alt: "Vista aérea del desarrollo residencial Dos Riberas de AGCA",
+    alt: "Campo de golf del desarrollo Dos Riberas de AGCA",
   },
   {
     name: "Lagos de Puente Moreno",
     image: "agca-lagos-puente-moreno.webp",
     alt: "Vista aérea del fraccionamiento Lagos de Puente Moreno de AGCA, con laguna y albercas",
+    // El recorte 21:9 centrado dejaba fuera la alberca de la parte baja de
+    // la foto; se desplaza el encuadre hacia abajo para conservarla.
+    focus: "50% 85%",
   },
   {
     name: "Nuevo Veracruz",
@@ -85,6 +93,7 @@ const projects: Project[] = [
         src={`${base}images/agca/${projects[0].image}`}
         alt={projects[0].alt}
         loading="lazy"
+        style={`object-position: ${projects[0].focus ?? "50% 50%"}`}
         class="aspect-[21/9] w-full rounded-[24px] object-cover transition-opacity duration-200 ease-out"
       />
     </div>
@@ -97,6 +106,7 @@ const projects: Project[] = [
             class="project-pill flex w-full items-center gap-3 rounded-2xl bg-agca-card px-5 py-4 text-left"
             data-image={`${base}images/agca/${project.image}`}
             data-alt={project.alt}
+            data-focus={project.focus ?? "50% 50%"}
             aria-pressed={i === 0 ? "true" : "false"}
           >
             <span class="pill-dot h-2 w-2 shrink-0 rounded-full bg-agca-accent" aria-hidden="true"></span>
@@ -149,12 +159,14 @@ const projects: Project[] = [
     pill.addEventListener("click", () => {
       const image = pill.dataset.image;
       const alt = pill.dataset.alt ?? "";
+      const focus = pill.dataset.focus || "50% 50%";
       if (!photo || !image || photo.getAttribute("src") === image) return;
 
       photo.style.opacity = "0";
       window.setTimeout(() => {
         photo.setAttribute("src", image);
         photo.setAttribute("alt", alt);
+        photo.style.objectPosition = focus;
         photo.style.opacity = "1";
       }, 200);
 
