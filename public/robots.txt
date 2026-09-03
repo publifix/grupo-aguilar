@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://publifix.github.io/grupo-aguilar/sitemap-index.xml
+Sitemap: https://grupoaguilar.com.mx/sitemap-index.xml

@@ -1,11 +1,21 @@
 # SEO técnico — Grupo Corporativo Aguilar
 
 Documentación de la configuración SEO del sitio, implementada sobre el proyecto Astro
-alojado en `publifix/grupo-aguilar` y publicado como **project site** de GitHub Pages en:
+alojado en `publifix/grupo-aguilar` y publicado vía GitHub Pages en:
 
 ```
-https://publifix.github.io/grupo-aguilar/
+https://grupoaguilar.com.mx/
 ```
+
+> **Actualización — dominio propio conectado.** El sitio se auditó y documentó
+> originalmente bajo `https://publifix.github.io/grupo-aguilar/` (project site de GitHub
+> Pages, con `/grupo-aguilar` como subpath). Ese dominio quedó conectado a
+> `grupoaguilar.com.mx` con `base: '/'` en `astro.config.mjs`. La mayoría de las secciones
+> de abajo describen el estado en el momento de la auditoría original y siguen siendo
+> válidas conceptualmente; las URLs de ejemplo se actualizaron al dominio actual. La
+> excepción es §1, que narra un bug histórico específico del subpath — se dejó tal cual
+> por ser un registro preciso de lo que pasó, con una nota de seguimiento sobre cómo la
+> migración de dominio terminó de blindar esa corrección.
 
 Esta nota resume qué se auditó, qué ya estaba bien hecho de rondas anteriores, qué se
 corrigió o añadió en esta pasada, las decisiones tomadas (y por qué), y una checklist de
@@ -73,7 +83,7 @@ la página real, o consolide señales en la URL equivocada.
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
 ```
 
-Verificado en build:
+Verificado en build (bajo el dominio de entonces):
 
 | Página | Antes (roto) | Ahora |
 |---|---|---|
@@ -81,6 +91,15 @@ Verificado en build:
 | Aviso de privacidad | `https://publifix.github.io/` | `https://publifix.github.io/grupo-aguilar/aviso-de-privacidad/` |
 
 Lo mismo corrige `og:url` y el `twitter:` card, que reutilizan la misma variable.
+
+**Seguimiento tras conectar el dominio propio:** `siteOrigin` seguía escrito como el
+literal `"https://publifix.github.io/"` en `Layout.astro` — funcionaba porque coincidía
+con `astro.config.mjs`, pero significaba que un cambio de dominio futuro (como el que
+acaba de pasar) rompería canonical/`og:url`/JSON-LD otra vez sin avisar, aunque
+`astro.config.mjs` estuviera bien actualizado. Se corrigió derivando `siteOrigin` de
+`Astro.site.origin` (con reserva `https://grupoaguilar.com.mx` solo por si `site` no
+estuviera configurado) en vez de escribirlo a mano, así que el dominio ahora vive en un
+único lugar real: `astro.config.mjs`.
 
 ---
 
@@ -179,21 +198,20 @@ desplegado (ver checklist).
 
 ## 6. Sitemap.xml y robots.txt
 
-Ambos ya estaban correctamente configurados desde una ronda anterior y siguen
-funcionando:
-
 - `@astrojs/sitemap` genera `sitemap-index.xml` → `sitemap-0.xml` en el build, con las
-  URLs completas y correctas (`https://publifix.github.io/grupo-aguilar/` y
-  `.../aviso-de-privacidad/`), porque el `site`+`base` de `astro.config.mjs` ya estaban
-  bien declarados — el sitemap nunca tuvo el bug de canonical de §1, que era un cálculo
-  aparte solo dentro del layout.
-- `public/robots.txt` permite todo (`Allow: /`) y apunta al sitemap con la URL completa
-  correcta.
+  URLs completas tomadas directamente de `site`+`base` en `astro.config.mjs` — nunca tuvo
+  el bug de canonical de §1 (ese era un cálculo aparte, solo dentro del layout), así que
+  se actualizó solo con cambiar `astro.config.mjs` para el nuevo dominio.
+- `public/robots.txt` permite todo (`Allow: /`) y apunta al sitemap. Este archivo sí tenía
+  la URL del sitemap escrita a mano (`Sitemap: https://.../sitemap-index.xml`), así que al
+  conectar el dominio propio quedó apuntando al dominio y subpath anteriores hasta que se
+  corrigió manualmente a `https://grupoaguilar.com.mx/sitemap-index.xml`.
 
-Verificado post-build en `dist/`:
+Verificado post-build en `dist/`, ya bajo el dominio propio:
 ```
-dist/sitemap-index.xml → https://publifix.github.io/grupo-aguilar/sitemap-0.xml
-dist/sitemap-0.xml     → /  y  /aviso-de-privacidad/
+dist/sitemap-index.xml → https://grupoaguilar.com.mx/sitemap-0.xml
+dist/sitemap-0.xml     → https://grupoaguilar.com.mx/  y  https://grupoaguilar.com.mx/aviso-de-privacidad/
+dist/robots.txt        → Sitemap: https://grupoaguilar.com.mx/sitemap-index.xml
 ```
 
 ---
@@ -319,6 +337,15 @@ anteriores.
 - `public/images/{hero,proyectos,perico,agca}/*.webp` — 17 archivos nuevos; se
   eliminaron sus 17 equivalentes `.jpg`.
 
+**Migración a dominio propio (ronda posterior):**
+
+- `astro.config.mjs` — `site` pasa de `https://publifix.github.io` a
+  `https://grupoaguilar.com.mx`; `base` pasa de `/grupo-aguilar` a `/`.
+- `src/layouts/Layout.astro` — `siteOrigin` deja de estar escrito a mano y se deriva de
+  `Astro.site.origin` (ver seguimiento en §1), para que un futuro cambio de dominio no
+  vuelva a requerir tocar este archivo.
+- `public/robots.txt` — URL del sitemap actualizada al nuevo dominio.
+
 ---
 
 ## 13. Checklist de pasos manuales pendientes
@@ -326,10 +353,12 @@ anteriores.
 Estos son pasos que **no se pueden completar desde el repositorio** — requieren acceso a
 cuentas externas del cliente (Google, redes sociales, dominio):
 
-- [ ] **Google Search Console**: dar de alta la propiedad
-  `https://publifix.github.io/grupo-aguilar/`, verificar propiedad (vía el archivo HTML
-  de verificación o meta tag — decirme cuando lo tengan y lo agrego al `<head>`), y
-  enviar el sitemap (`sitemap-index.xml`) manualmente la primera vez.
+- [ ] **Google Search Console**: dar de alta la propiedad de `https://grupoaguilar.com.mx/`
+  (si ya existía una propiedad para `publifix.github.io/grupo-aguilar/`, es una propiedad
+  aparte — Search Console no migra el historial automáticamente al cambiar de dominio),
+  verificar propiedad (vía el archivo HTML de verificación o meta tag — decirme cuando lo
+  tengan y lo agrego al `<head>`), y enviar el sitemap (`sitemap-index.xml`) manualmente
+  la primera vez.
 - [ ] **Google Business Profile**: crear/reclamar la ficha de Grupo Corporativo Aguilar
   en Veracruz. De ahí sale la dirección verificada, coordenadas geográficas reales y
   horario de atención — con esos datos confirmados puedo agregar `geo` y
@@ -349,12 +378,20 @@ cuentas externas del cliente (Google, redes sociales, dominio):
   medir el impacto real de la conversión a WebP (§9) y el fix de canonical (§1) en el
   tráfico orgánico, conviene tener GA4 o al menos revisar el reporte de "Rendimiento" en
   Search Console después de 2–4 semanas.
-- [ ] **Dominio propio (opcional)**: hoy el sitio vive bajo `publifix.github.io/grupo-
-  aguilar/`, un subpath de un dominio de terceros — no es ideal para marca ni para SEO a
-  largo plazo comparado con un dominio propio (ej. `grupoaguilar.com.mx`) con HTTPS. Si
-  el cliente ya tiene o planea comprar un dominio, avísenme para configurar el `CNAME`
-  de GitHub Pages y actualizar `site`/`base` en `astro.config.mjs` (en ese caso `base`
-  pasaría a ser `/` y desaparece todo el manejo de subpath de este documento).
+- [x] **Dominio propio**: hecho — el sitio ya vive en `https://grupoaguilar.com.mx/` en
+  vez del subpath `publifix.github.io/grupo-aguilar/`. `astro.config.mjs` y las
+  referencias hardcodeadas detectadas (`Layout.astro`, `robots.txt`) se actualizaron.
+- [ ] **Confirmar HTTPS y el archivo `CNAME`**: verificar en Settings → Pages del repo que
+  el certificado HTTPS para `grupoaguilar.com.mx` ya se emitió (puede tardar hasta 24h
+  tras conectar el dominio) y que "Enforce HTTPS" esté activado. Este repo despliega vía
+  GitHub Actions (`actions/deploy-pages`, no "deploy from a branch"), así que el dominio
+  personalizado vive en la configuración del repositorio, no en un archivo `CNAME` dentro
+  del código — no hace falta agregar uno a `public/`, pero vale la pena confirmar que el
+  dominio siga apareciendo correctamente en Settings → Pages tras el próximo deploy.
+- [ ] **Redirección desde la URL anterior**: si `https://publifix.github.io/grupo-aguilar/`
+  llegó a indexarse en Google o a compartirse en algún lado, esas visitas ya no
+  redirigen automáticamente al dominio nuevo (GitHub Pages no redirige subpaths viejos a
+  un dominio personalizado nuevo). Si eso importa, avísenme para evaluar opciones.
 - [ ] **Confirmar copy pendiente**: las descripciones de Star Médica y Constellation
   Brands en "Experiencia destacada" siguen siendo texto provisional (ver conversación
   previa) — no es un tema de SEO técnico, pero un texto genérico rinde peor en

@@ -20,14 +20,16 @@ const {
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
-const siteOrigin = "https://publifix.github.io/";
-const siteUrl = `${siteOrigin}${base.replace(/^\//, "")}`;
-// Astro.url.pathname already includes the GitHub Pages project base (e.g.
-// "/grupo-aguilar/aviso-de-privacidad/"), so it only needs to be resolved
-// against the bare domain — NOT against siteUrl, which already has the base
-// baked in too. Joining a leading-slash path against a base URL that itself
-// has a subpath silently drops that subpath (this previously shipped with
-// every canonical/og:url missing "/grupo-aguilar" entirely).
+// Derived from astro.config.mjs's `site` (never hardcoded here) so a future
+// domain or base-path change only has to happen in one place. siteOrigin is
+// the bare domain; siteUrl additionally has the base path baked in.
+const siteOrigin = Astro.site?.origin ?? "https://grupoaguilar.com.mx";
+const siteUrl = new URL(base, siteOrigin).toString();
+// Astro.url.pathname already includes the configured base path, so it only
+// needs to be resolved against the bare domain — NOT against siteUrl, which
+// has the base baked in too. Joining a leading-slash path against a base URL
+// that itself has a subpath silently drops that subpath (this previously
+// shipped with every canonical/og:url missing the GitHub Pages project path).
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
 const resolvedOgImage = new URL(ogImage ?? `${base}images/og-image.jpg`, siteOrigin).toString();
 
