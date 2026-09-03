@@ -2,10 +2,10 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// Project site on GitHub Pages: https://publifix.github.io/grupo-aguilar/
+// Custom domain via GitHub Pages: https://grupoaguilar.com.mx/
 export default defineConfig({
-  site: 'https://publifix.github.io',
-  base: '/grupo-aguilar',
+  site: 'https://grupoaguilar.com.mx',
+  base: '/',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
