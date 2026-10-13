@@ -392,7 +392,6 @@ cuentas externas del cliente (Google, redes sociales, dominio):
   llegó a indexarse en Google o a compartirse en algún lado, esas visitas ya no
   redirigen automáticamente al dominio nuevo (GitHub Pages no redirige subpaths viejos a
   un dominio personalizado nuevo). Si eso importa, avísenme para evaluar opciones.
-- [ ] **Confirmar copy pendiente**: las descripciones de Star Médica y Constellation
-  Brands en "Experiencia destacada" siguen siendo texto provisional (ver conversación
-  previa) — no es un tema de SEO técnico, pero un texto genérico rinde peor en
-  relevancia semántica que uno específico del proyecto real.
+- [x] **Confirmar copy pendiente**: hecho — las descripciones de Star Médica y
+  Constellation Brands en "Experiencia destacada" ya tienen su texto definitivo y
+  específico del proyecto real.
