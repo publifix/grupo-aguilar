@@ -1,0 +1,72 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+
+const videoUrl =
+  "https://github.com/publifix/grupo-aguilar/releases/download/assets-video-agca/VID-20260929-WA0006.mp4";
+const posterSrc = `${base}images/trayectoria/trayectoria-poster.webp`;
+---
+
+<section id="trayectoria" class="relative overflow-hidden bg-dark px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+  <div class="pointer-events-none absolute -left-32 top-0 h-[28rem] w-[28rem] rounded-full bg-brand/10 blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-3xl text-center">
+    <p class="reveal-item flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
+      <span aria-hidden="true">—</span> Nuestra Trayectoria
+    </p>
+    <h2 class="reveal-item mx-auto mt-4 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold leading-[1.05] text-white">
+      Más de 40 años de historia, en poco más de tres minutos.
+    </h2>
+    <p class="reveal-item mt-4 text-lg leading-relaxed text-white/70">
+      Un recorrido por los proyectos, clientes y lugares que han sido parte del camino de Grupo
+      Aguilar.
+    </p>
+  </div>
+
+  <div class="reveal-item relative mx-auto mt-14 max-w-5xl overflow-hidden rounded-[24px] shadow-2xl shadow-black/50">
+    <div class="relative aspect-video w-full bg-black">
+      <video
+        id="trayectoria-video"
+        class="absolute inset-0 h-full w-full object-cover"
+        poster={posterSrc}
+        preload="none"
+        controls
+        playsinline
+        aria-label="Video institucional de Grupo Aguilar: recorrido por proyectos y más de 40 años de trayectoria"
+      >
+        <source src={videoUrl} type="video/mp4" />
+        Tu navegador no soporta la reproducción de este video.
+      </video>
+
+      <button
+        type="button"
+        id="trayectoria-play"
+        aria-label="Reproducir video: nuestra trayectoria"
+        class="group absolute inset-0 flex items-center justify-center bg-black/20 transition-colors duration-300 ease-out hover:bg-black/30"
+      >
+        <span class="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white sm:left-6 sm:top-6">
+          3:20 min
+        </span>
+        <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white/95 shadow-xl transition-transform duration-300 ease-out group-hover:scale-105 sm:h-20 sm:w-20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 translate-x-0.5 text-brand sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.getElementById("trayectoria-video") as HTMLVideoElement | null;
+  const playButton = document.getElementById("trayectoria-play");
+
+  playButton?.addEventListener("click", () => {
+    video?.play();
+  });
+
+  video?.addEventListener("play", () => {
+    if (!playButton) return;
+    playButton.style.opacity = "0";
+    playButton.style.pointerEvents = "none";
+  });
+</script>
